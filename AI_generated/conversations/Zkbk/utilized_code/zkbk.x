@@ -8,8 +8,9 @@ enum RiscVInstruction : u32 {
     PACK = 6,
     PACKH = 7,
     BREV8 = 8,
-    REV8 = 9
-    zip = 10
+    REV8 = 9,
+    zip = 10,
+    unzip = 11
 }
 fn ror(rs1: u32, rs2: u32) -> u32 {
     let shift_amount: u32 = rs2 & u32:31;
@@ -88,6 +89,20 @@ fn zip(rs1: u32) -> u32 {
     result
 }
 
+fn unzip(rs1: u32) -> u32 {
+    // Assuming we're working with 32-bit registers, so half-length is 16.
+    let xlen_half: u32 = u32:16;
+    // Iterate over half the length of the register and construct the result.
+    let rd: u32 = for (i, acc) : (u32, u32) in range(u32:0, xlen_half) {
+        // Extract even and odd bits.
+        let even_bit: u32 = (rs1 >> (i * u32:2)) & u32:1;
+        let odd_bit: u32 = (rs1 >> (i * u32:2 + u32:1)) & u32:1;
+        // Place the even bit into the lower half and the odd bit into the upper half.
+        acc + (even_bit << i) + (odd_bit << (i + xlen_half))
+    }(u32:0);  // initialize acc as 0 at the start
+    rd
+}
+
 #[test]
 fn test_ror() {
     assert_eq(ror(u32:0b00100000000000000000000000000000, u32:1), u32:0b00010000000000000000000000000000);
@@ -141,4 +156,11 @@ fn test_rev8() {
 #[test]
 fn full_test_zip() {
     assert_eq(zip(u32:0b01010101010101011111111111111111), u32:0b01110111011101110111011101110111);
+}
+
+#[test]
+
+fn test_unzip() {
+    assert_eq(unzip(u32:0b01110111011101110111011101110111), u32:0b01010101010101011111111111111111);
+    assert_eq(unzip(u32:0b11001100110011001100110011001100), u32:0b10101010101010101010101010101010);
 }
