@@ -12,3 +12,18 @@ The instructions:
     REV8 
 a unit test for every instruction:
 https://chat.openai.com/share/932537a2-23f7-4259-a322-175dccdaa6f5
+
+The instructions:
+    ROR 
+    ROL
+    RORI
+    ANDN
+    ORN 
+    XNOR
+    PACK
+    PACKH 
+    BREV8 
+    REV8 
+    zip
+a unit test for every instruction:
+https://chat.openai.com/share/932537a2-23f7-4259-a322-175dccdaa6f5
