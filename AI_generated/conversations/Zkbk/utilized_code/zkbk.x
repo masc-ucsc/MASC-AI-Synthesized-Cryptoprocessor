@@ -9,6 +9,7 @@ enum RiscVInstruction : u32 {
     PACKH = 7,
     BREV8 = 8,
     REV8 = 9
+    zip = 10
 }
 fn ror(rs1: u32, rs2: u32) -> u32 {
     let shift_amount: u32 = rs2 & u32:31;
@@ -76,6 +77,17 @@ fn rev8(rs: u32) -> u32 {
     byte0 << u32:24 | byte1 << u32:16 | byte2 << u32:8 | byte3
 }
 
+fn zip(rs1: u32) -> u32 {
+    let xlen_half: u32 = u32:16;
+    let result: u32 = for (i, acc) : (u32, u32) in range(u32:0, xlen_half) {
+        let lower_bit: u32 = (rs1 >> i) & u32:1;
+        let upper_bit: u32 = (rs1 >> (i + xlen_half)) & u32:1;
+        let combined_bits: u32 = (lower_bit << (u32:2 * i)) | (upper_bit << (u32:2 * i + u32:1));
+        acc | combined_bits
+    }(u32:0);  // initialize acc as 0 at the start
+    result
+}
+
 #[test]
 fn test_ror() {
     assert_eq(ror(u32:0b00100000000000000000000000000000, u32:1), u32:0b00010000000000000000000000000000);
@@ -124,4 +136,9 @@ fn test_brev8() {
 #[test]
 fn test_rev8() {
     assert_eq(rev8(u32:0b00000001000000100000001100000100), u32:0b00000100000000110000001000000001);
+}
+
+#[test]
+fn full_test_zip() {
+    assert_eq(zip(u32:0b01010101010101011111111111111111), u32:0b01110111011101110111011101110111);
 }
