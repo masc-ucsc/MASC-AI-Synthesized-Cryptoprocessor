@@ -1,0 +1,11 @@
+#!/bin/bash
+fileList=$(ls -1 ./conversations/*/utilized_code/*)
+
+if [[ -z "${XLS}" ]]; then
+  echo "\$XLS env var needs to be set to bazel-bin directory of XLS";
+  exit 1;
+fi
+
+for f in $fileList; do
+  $XLS/xls/dslx/interpreter_main $f
+done
