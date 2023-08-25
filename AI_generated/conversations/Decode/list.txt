@@ -1,1 +1,5 @@
 **Put conversation links here and mark them with the functionality they implement**
+The instructions are generated one by one:
+https://chat.openai.com/share/932537a2-23f7-4259-a322-175dccdaa6f5
+The decode:
+https://chat.openai.com/share/bc4fb15d-9bdd-499f-a9df-c5b0d7dbba84
