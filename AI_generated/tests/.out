@@ -1,0 +1,54 @@
+Spike RISC-V ISA Simulator 1.1.1-dev
+
+usage: spike [host options] <target program> [target options]
+Host Options:
+  -p<n>                 Simulate <n> processors [default 1]
+  -m<n>                 Provide <n> MiB of target memory [default 2048]
+  -m<a:m,b:n,...>       Provide memory regions of size m and n bytes
+                          at base addresses a and b (with 4 KiB alignment)
+  -d                    Interactive debug mode
+  -g                    Track histogram of PCs
+  -l                    Generate a log of execution
+  -s                    Command I/O via socket (use with -d)
+  -h, --help            Print this help message
+  -H                    Start halted, allowing a debugger to connect
+  --log=<name>          File name for option -l
+  --debug-cmd=<name>    Read commands from file (use with -d)
+  --isa=<name>          RISC-V ISA string [default RV64IMAFDC_zicntr_zihpm]
+  --pmpregions=<n>      Number of PMP regions [default 16]
+  --priv=<m|mu|msu>     RISC-V privilege modes supported [default MSU]
+  --varch=<name>        RISC-V Vector uArch string [default vlen:128,elen:64]
+  --pc=<address>        Override ELF entry point
+  --hartids=<a,b,...>   Explicitly specify hartids, default is 0,1,...
+  --ic=<S>:<W>:<B>      Instantiate a cache model with S sets,
+  --dc=<S>:<W>:<B>        W ways, and B-byte blocks (with S and
+  --l2=<S>:<W>:<B>        B both powers of 2).
+  --big-endian          Use a big-endian memory system.
+  --misaligned          Support misaligned memory accesses
+  --device=<name>       Attach MMIO plugin device from an --extlib library
+  --log-cache-miss      Generate a log of cache miss
+  --log-commits         Generate a log of commits info
+  --extension=<name>    Specify RoCC Extension
+                          This flag can be used multiple times.
+  --extlib=<name>       Shared library to load
+                        This flag can be used multiple times.
+  --rbb-port=<port>     Listen on <port> for remote bitbang connection
+  --dump-dts            Print device tree string and exit
+  --dtb=<path>          Use specified device tree blob [default: auto-generate]
+  --disable-dtb         Don't write the device tree blob into memory
+  --kernel=<path>       Load kernel flat image into memory
+  --initrd=<path>       Load kernel initrd into memory
+  --bootargs=<args>     Provide custom bootargs for kernel [default: console=ttyS0 earlycon]
+  --real-time-clint     Increment clint time at real-time rate
+  --triggers=<n>        Number of supported triggers [default 4]
+  --dm-progsize=<words> Progsize for the debug module [default 2]
+  --dm-sba=<bits>       Debug system bus access supports up to <bits> wide accesses [default 0]
+  --dm-auth             Debug module requires debugger to authenticate
+  --dmi-rti=<n>         Number of Run-Test/Idle cycles required for a DMI access [default 0]
+  --dm-abstract-rti=<n> Number of Run-Test/Idle cycles required for an abstract command to execute [default 0]
+  --dm-no-hasel         Debug module supports hasel
+  --dm-no-abstract-csr  Debug module won't support abstract CSR access
+  --dm-no-abstract-fpr  Debug module won't support abstract FPR access
+  --dm-no-halt-groups   Debug module won't support halt groups
+  --dm-no-impebreak     Debug module won't support implicit ebreak in program buffer
+  --blocksz=<size>      Cache block size (B) for CMO operations(powers of 2) [default 64]

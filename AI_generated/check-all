@@ -7,5 +7,5 @@ if [[ -z "${XLS}" ]]; then
 fi
 
 for f in $fileList; do
-  $XLS/xls/dslx/interpreter_main $f
+  $XLS/xls/dslx/interpreter_main $f --alsologtostderr
 done
