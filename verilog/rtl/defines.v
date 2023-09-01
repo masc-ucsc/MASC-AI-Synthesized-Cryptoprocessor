@@ -64,3 +64,4 @@
 `define DM_INIT 3'b001
 
 `endif // __GLOBAL_DEFINE_H
+
