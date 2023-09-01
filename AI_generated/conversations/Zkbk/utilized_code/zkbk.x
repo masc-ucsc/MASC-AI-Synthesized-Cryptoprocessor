@@ -45,7 +45,7 @@ fn pack(rs1: u32, rs2: u32) -> u32 {
 fn packh(rs1: u32, rs2: u32) -> u32 {
     (rs1 & u32:0xFF) | ((rs2 & u32:0xFF) << u32:8)
 }
-// XXX - this is ununsed?
+
 fn reverse_byte(input_bits: u32) -> u32 {
     let bit0: u32 = (input_bits >> u32:0) & u32:1;
     let bit1: u32 = (input_bits >> u32:1) & u32:1;
