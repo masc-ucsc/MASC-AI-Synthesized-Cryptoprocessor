@@ -1,6 +1,6 @@
 package masc
 
-file_number 0 "/home/mark/efabless_2023/caravel_template/AI_generated/top_level/masc.x"
+file_number 0 "/soe/mzakharo/MASC-AI-Synthesized-Cryptoprocessor/AI_generated/top_level/masc.x"
 
 top fn __masc__execute(instruction: bits[32], rs1: bits[32], rs2: bits[32]) -> (bits[32], bits[1]) {
   literal.10089: bits[1] = literal(value=0, id=10089, pos=[(0,3,32)])

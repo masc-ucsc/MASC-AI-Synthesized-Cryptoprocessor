@@ -15,9 +15,6 @@ if [[ $(echo $?) -ne 0 ]]; then
 else
   $XLS/xls/dslx/ir_convert/ir_converter_main --top=$topFunct $dir$file.x > $dir$file.ir;
   $XLS/xls/tools/opt_main $dir$file.ir > $dir$file.opt.ir;
-  $XLS/xls/tools/codegen_main --generator=pipeline \
-       #--clock_period_ps=1000 \
-       --pipeline_stages=1   \
-       --delay_model=sky130  \
-       --separate_lines $dir$file.opt.ir > $dir$topFunct.v
+  $XLS/xls/tools/codegen_main --generator=pipeline --pipeline_stages=1 --delay_model=sky130 --separate_lines $dir$file.opt.ir > $dir$topFunct.v
+  exit 0;
 fi
