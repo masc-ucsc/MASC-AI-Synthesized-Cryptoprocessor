@@ -9,4 +9,4 @@ $(TOP): $(TOP).S
 	riscv64-unknown-elf-gcc $(OPTIONS) $(LDFLAGS) $< -o $@
 
 clean:
-	rm -rf $(PROGRAMS) *.out
+	rm -rf $(TOP) *.out *.cosim

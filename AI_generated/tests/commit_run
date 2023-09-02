@@ -1,0 +1,6 @@
+#!/bin/bash
+if [[ -e "crypto_tests" ]]; then
+  spike --isa=RV32imafdcv_zicsr_zifencei_zbkb_zknh_zbkc_zbkx_zknd_zkne_zksed_zksh -l --log-commits crypto_tests >> crypto_tests.out 2>&1
+else
+  echo "Error: crypto_tests elf file does not exist, did you run make?";
+fi
