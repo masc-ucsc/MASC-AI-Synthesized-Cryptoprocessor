@@ -1,7 +1,0 @@
-**Put conversation links here and mark them with the functionality they implement**
-the instructions: 
-  sha256sig0
-  sha256sig1
-  sha256sum0
-  sha256sum1
-https://chat.openai.com/share/26063abe-c82b-49c0-973f-5b6c4aa14947

@@ -4,9 +4,6 @@ log="./crypto_tests.out"
 list=("ror" "rol" "rori" "andn" "orn" "xnor" "pack" "packh" "brev8" "rev8" "shfli"
       "unshfli" "sha256sig0" "sha256sig1" "sha256sum0" "sha256sum1" "sha512sig0h"
       "sha512sig0l" "sha512sig1h" "sha512sig1l")
-found_insn=false
-space_insn=""
-next_insn=""
 
 if [[ -e $file ]]; then
   rm $file;
@@ -17,6 +14,9 @@ if [[ ! -e $log ]]; then
   exit 1;
 fi
 
+found_insn=false
+space_insn=""
+next_insn=""
 # reformats spike log to isolate crypto instruction execution
 # alongside the writeback value to match the output of DSLX tests
 while IFS= read -r line

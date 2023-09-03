@@ -1,3 +1,5 @@
+# Conversation source: https://chat.openai.com/share/fbaf01cb-b41d-4863-a296-90ff46c469e5
+
 # decode
 
 ## You

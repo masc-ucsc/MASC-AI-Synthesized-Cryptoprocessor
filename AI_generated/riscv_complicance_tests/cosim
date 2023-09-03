@@ -1,0 +1,52 @@
+#!/bin/bash
+spike_file="./crypto_tests.cosim"
+spike_log="./crypto_tests.out"
+instruction_list=("ror" "rol" "rori" "andn" "orn" "xnor" "pack" "packh" "brev8" "rev8" "shfli"
+      "unshfli" "sha256sig0" "sha256sig1" "sha256sum0" "sha256sum1" "sha512sig0h"
+      "sha512sig0l" "sha512sig1h" "sha512sig1l")
+
+# reformats spike/DSLX log to isolate crypto instruction execution
+# alongside the writeback value
+format_log () {
+  file=$1
+  log=$2
+  list=("$@")
+  
+  if [[ -e $file ]]; then
+    rm $file;
+  fi
+
+  if [[ ! -e $log ]]; then
+    echo "Error: missing input log file, did you run commit_run and check-all?";
+   exit 1;
+  fi
+
+  found_insn=false
+  space_insn=""
+  next_insn=""
+
+  while IFS= read -r line
+  do
+    if [[ "$found_insn" = true ]]; then # the next line has the writeback value
+      echo "$next_insn${line##* }" >> $file;
+      found_insn=false;
+    fi
+
+    for instruction in ${list[@]}; do
+      space_insn=" ${instruction} " #avoid confusion between insn that is substring of another
+      if [[ $line =~ $space_insn ]]; then
+        if [[ "$space_insn" == " shfli " ]]; then
+          next_insn=" zip ";   # spike names this differently
+        elif [[ "$space_insn" == " unshfli " ]]; then
+          next_insn=" unzip "; # spike names this differently
+        else
+          next_insn="$space_insn";
+        fi
+        found_insn=true;
+        continue;
+      fi
+    done
+  done < "$log"
+}
+
+format_log $spike_file $spike_log "${instruction_list[@]}";

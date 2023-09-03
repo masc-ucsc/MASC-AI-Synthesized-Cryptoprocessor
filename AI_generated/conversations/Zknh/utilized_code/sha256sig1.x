@@ -14,6 +14,7 @@ fn test_sha256sig1() {
     let test_input1 = u32:0b00000000111111110000000011111111;
     let expected_output1 = sha256sig1(test_input1); // This value is just a placeholder. We will trace the actual value.
     let result = sha256sig1(test_input1);
-    trace_fmt!(" sha256sig1 0x{:x}", result);
+    trace_fmt!(" sha256sig1 ");
+    trace_fmt!(" 0x{:x}", result);
     assert_eq(result, expected_output1);
 }

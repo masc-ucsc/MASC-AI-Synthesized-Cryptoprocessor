@@ -1,4 +1,5 @@
 #!/bin/bash
+log=check-all.out
 fileList=$(ls -1 ./conversations/*/utilized_code/*)
 
 if [[ -z "${XLS}" ]]; then
@@ -6,6 +7,11 @@ if [[ -z "${XLS}" ]]; then
   exit 1;
 fi
 
+if [[ -e $log ]]; then
+  rm $log;
+fi
+
 for f in $fileList; do
-  $XLS/xls/dslx/interpreter_main $f --alsologtostderr
+  $XLS/xls/dslx/interpreter_main $f # show user tests being run and passed/failed
+  $XLS/xls/dslx/interpreter_main $f --alsologtostderr >> $log 2>&1 # for cosim logging
 done

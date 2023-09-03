@@ -1,3 +1,5 @@
+# Conversation source: https://chat.openai.com/share/3baea935-3084-4c29-8e9a-ac5f19cd9b8e
+
 # crypto asm
 
 ## You
