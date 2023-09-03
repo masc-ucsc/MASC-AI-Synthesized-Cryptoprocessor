@@ -1,17 +1,3 @@
-enum RiscVInstruction : u32 {
-    ROR = 0,
-    ROL = 1,
-    RORI = 2,
-    ANDN = 3,
-    ORN = 4,
-    XNOR = 5,
-    PACK = 6,
-    PACKH = 7,
-    BREV8 = 8,
-    REV8 = 9,
-    zip = 10,
-    unzip = 11
-}
 fn ror(rs1: u32, rs2: u32) -> u32 {
     let shift_amount: u32 = rs2 & u32:31;
     (rs1 >> shift_amount) | (rs1 << (u32:32 - shift_amount))
