@@ -26,4 +26,6 @@ fn test_SHA512SUM1R() {
     let expected_shift: u32 = u32:0b00000000000000000000000000000100;
     let expected_result: u32 = expected_rotation_1 ^ expected_rotation_2 ^ expected_shift;
     assert_eq(result, expected_result);
+    trace_fmt!(" sha512sum1r ");
+    trace_fmt!(" 0x{:x}", result);
 }

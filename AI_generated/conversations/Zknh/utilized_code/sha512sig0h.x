@@ -37,6 +37,8 @@ fn test_sha512sig0h() {
   let rotations_xor = rotation_1 ^ rotation_2 ^ rotation_3;
   let expected = rotations_xor ^ combined_1 ^ combined_2 ^ combined_3;
   assert_eq(result, expected);
+  trace_fmt!(" sha512sig0h ");
+  trace_fmt!(" 0x{:x}", result);
 }
 
 

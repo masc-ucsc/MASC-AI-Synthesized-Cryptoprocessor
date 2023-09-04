@@ -75,7 +75,8 @@ fn test_sha512sum0r() {
     // Check if result matches expected value
 
     assert_eq(result, expected);
-
+    trace_fmt!(" sha512sum0r ");
+    trace_fmt!(" 0x{:x}", result);
 }
 
 

@@ -1,9 +1,10 @@
 #!/bin/bash
 spike_file="./crypto_tests.cosim"
 spike_log="./crypto_tests.out"
-instruction_list=("ror" "rol" "rori" "andn" "orn" "xnor" "pack" "packh" "brev8" "rev8" "shfli"
-      "unshfli" "sha256sig0" "sha256sig1" "sha256sum0" "sha256sum1" "sha512sig0h"
-      "sha512sig0l" "sha512sig1h" "sha512sig1l")
+dslx_file="./dslx_tests.cosim"
+dslx_log="../check-all.out"
+
+instruction_list=("ror" "rol" "rori" "andn" "orn" "xnor" "pack" "packh" "brev8" "rev8" "shfli" "zip" "unshfli" "unzip" "sha256sig0" "sha256sig1" "sha256sum0" "sha256sum1" "sha512sig0h" "sha512sig0l" "sha512sig1h" "sha512sig1l")
 
 # reformats spike/DSLX log to isolate crypto instruction execution
 # alongside the writeback value
@@ -28,7 +29,9 @@ format_log () {
   while IFS= read -r line
   do
     if [[ "$found_insn" = true ]]; then # the next line has the writeback value
-      echo "$next_insn${line##* }" >> $file;
+      writeback=${line##* };
+      full=$(printf "0x%08x" $writeback); # left justify zeros for u32 value
+      echo "$next_insn$full" >> $file;
       found_insn=false;
     fi
 
@@ -50,3 +53,4 @@ format_log () {
 }
 
 format_log $spike_file $spike_log "${instruction_list[@]}";
+format_log $dslx_file  $dslx_log  "${instruction_list[@]}";

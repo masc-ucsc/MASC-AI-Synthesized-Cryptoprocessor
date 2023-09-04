@@ -29,4 +29,6 @@ fn test_sha512sig1l() {
     let result = sha512sig1l(rs1, rs2);
     let expected: u32 = u32:0b00000001000000000000000000001000;
     assert_eq(result, expected);
+    trace_fmt!(" sha512sig1l ");
+    trace_fmt!(" 0x{:x}", result);
 }

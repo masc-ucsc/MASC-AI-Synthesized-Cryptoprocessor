@@ -17,7 +17,10 @@ fn sha256sum1(rs1: u32) -> u32 {
 fn test_sha256sum1_simple() {
   let input = u32:0b00000000000000000000000100000000;
   assert_eq(sha256sum1(input), u32:0b00100000000000001000000000000100);
-
+  trace_fmt!(" sha256sum1 ");
+  trace_fmt!(" 0x{:x}", sha256sum1(input));
   let input_2 = u32:0b00000000000000000000001000000000;
   assert_eq(sha256sum1(input_2), u32:0b01000000000000010000000000001000);
+  trace_fmt!(" sha256sum1 ");
+  trace_fmt!(" 0x{:x}", sha256sum1(input_2));
 }

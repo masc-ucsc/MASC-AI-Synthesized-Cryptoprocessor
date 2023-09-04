@@ -67,7 +67,8 @@ fn test_sha512sig1h() {
 
 
     assert_eq(result, expected);
-
+    trace_fmt!(" sha512sig1h ");
+    trace_fmt!(" 0x{:x}", result);
 }
 
 

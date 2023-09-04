@@ -17,7 +17,8 @@ fn test_sha256sum0_simple() {
     let input = u32:0b00000000000000000000000100000000;
     let expected_output = u32:0b00001000000001000000000001000000; // 28th and 17th positions set
     assert_eq(sha256sum0(input), expected_output);
-
+    trace_fmt!(" sha256sum0 ");
+    trace_fmt!(" 0x{:x}", sha256sum0(input));
 //    let input_2 = u32:0b00000000000000001000000000000000;
 //    let expected_output_2 = u32:0b00000000001000000000010000000100; // 28th and 17th positions set
 //    assert_eq(sha256sum0(input), expected_output);

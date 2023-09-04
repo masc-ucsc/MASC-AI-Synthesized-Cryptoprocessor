@@ -29,4 +29,6 @@ fn test_sha256sig0() {
   // Using the sha256sig0 function to compute the result
   let result = sha256sig0(input);
   assert_eq(result, expected_output);
+  trace_fmt!(" sha256sig0 ");
+  trace_fmt!(" 0x{:x}", result);
 }
