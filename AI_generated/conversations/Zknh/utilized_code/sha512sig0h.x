@@ -1,45 +1,22 @@
-// Constants defining the word length
-const XLEN: u32 = u32:32;
-// Rotate right function
-fn ror(rs1: u32, rs2: u32) -> u32 {
-  let shift_amount = rs2 & (XLEN - u32:1); // Limit the shift amount to log2(XLEN) bits
-  (rs1 >> shift_amount) | (rs1 << (XLEN - shift_amount))
-}
-
-// sha512sig0h implementation
 fn sha512sig0h(rs1: u32, rs2: u32) -> u32 {
-  // Assuming some right rotation values specific to Sigma0 high transformation
-  let rotation_1 = ror(rs1, u32:28);
-  let rotation_2 = ror(rs1, u32:34);
-  let rotation_3 = ror(rs1, u32:39);
-  // Combining results with operations on rs2 (this is a stub since the exact operations are not detailed)
-  let combined_1 = rotation_1 & rs2; 
-  let combined_2 = rotation_2 | rs2;
-  let combined_3 = rotation_3 ^ rs2;
-
-  // XOR the results to get the final output
-  rotation_1 ^ rotation_2 ^ rotation_3 ^ combined_1 ^ combined_2 ^ combined_3
+    let part1 = rs1 >> u32:1; //right
+    let part2 = rs1 >> u32:7;
+    let part3 = rs1 >> u32:8;
+    let part4 = rs2 << u32:31; //left
+    let part5 = rs2 << u32:24; //left
+    // Combine using XOR to produce the result
+    let result = part1 ^ part2 ^ part3 ^ part4 ^ part5;
+    result
 }
 
 #[test]
 fn test_sha512sig0h() {
-  let rs1 = u32:0b00000000000000000000000100000000;
-  let rs2 = u32:0b00000000000000000000001000000000;
-  let result = sha512sig0h(rs1, rs2);
-  // Manual Computation:
-  let rotation_1 = ror(rs1, u32:28);
-  let rotation_2 = ror(rs1, u32:34); // Assuming our architecture wraps around for ror(rs1, 34)
-  let rotation_3 = ror(rs1, u32:39); // Assuming our architecture wraps around for ror(rs1, 39)
-  let combined_1 = rotation_1 & rs2;
-  let combined_2 = rotation_2 | rs2;
-  let combined_3 = rotation_3 ^ rs2;
+    // Test case 1: Simple case where both inputs are zero
+    assert_eq(sha512sig0h(u32:0, u32:0), u32:0);
+    assert_eq(sha512sig0h(u32:0b00000001, u32:0), u32:0b00000000);
+    assert_eq(sha512sig0h(u32:0b00000000, u32:0b00000001), u32:0b10000001000000000000000000000000);
+    // Test case 4: Random bits in both rs1 and rs2
 
-  let rotations_xor = rotation_1 ^ rotation_2 ^ rotation_3;
-  let expected = rotations_xor ^ combined_1 ^ combined_2 ^ combined_3;
-  assert_eq(result, expected);
-  trace_fmt!(" sha512sig0h ");
-  trace_fmt!(" 0x{:x}", result);
+    assert_eq(sha512sig0h(u32:0b10101010010101011010101001010101, u32:0b01010101101010100101010110101010), u32:0b11111110110101000010101111010100);
+    // ... add more test cases as needed
 }
-
-
-
