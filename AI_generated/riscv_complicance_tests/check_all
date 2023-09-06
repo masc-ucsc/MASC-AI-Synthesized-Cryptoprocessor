@@ -1,6 +1,6 @@
 #!/bin/bash
-log=check-all.out
-fileList=$(ls -1 ./conversations/*/utilized_code/*)
+log=check_all.out
+fileList=$(ls -1 ../conversations/Zk*/utilized_code/*)
 
 if [[ -z "${XLS}" ]]; then
   echo "\$XLS env var needs to be set to bazel-bin directory of XLS";

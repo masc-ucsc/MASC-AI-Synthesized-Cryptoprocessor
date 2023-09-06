@@ -2,7 +2,7 @@
 spike_file="./crypto_tests.cosim"
 spike_log="./crypto_tests.out"
 dslx_file="./dslx_tests.cosim"
-dslx_log="../check-all.out"
+dslx_log="./check_all.out"
 
 instruction_list=("ror" "rol" "rori" "andn" "orn" "xnor" "pack" "packh" "brev8" "rev8" "shfli" "zip" "unshfli" "unzip" "sha256sig0" "sha256sig1" "sha256sum0" "sha256sum1" "sha512sig0h" "sha512sig0l" "sha512sig1h" "sha512sig1l")
 
@@ -18,7 +18,7 @@ format_log () {
   fi
 
   if [[ ! -e $log ]]; then
-    echo "Error: missing input log file, did you run commit_run and check-all?";
+    echo "Error: missing input log file, did you run commit_run and check_all?";
    exit 1;
   fi
 
@@ -54,3 +54,9 @@ format_log () {
 
 format_log $spike_file $spike_log "${instruction_list[@]}";
 format_log $dslx_file  $dslx_log  "${instruction_list[@]}";
+diff $dslx_file $spike_file
+if [[ $? ]]; then
+  echo "Cosim divergence detected for the above test cases, left is the DUT, right is expected";
+else
+  echo "Cosim passed!";
+fi
