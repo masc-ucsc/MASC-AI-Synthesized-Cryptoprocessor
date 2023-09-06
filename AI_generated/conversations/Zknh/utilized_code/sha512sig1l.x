@@ -1,34 +1,31 @@
-// Rotate right function
-fn ror(rs1: u32, rs2: u32) -> u32 {
-  let shift_amount: u32 = rs2 & u32:31;  // Limit the shift amount to log2(32) bits which is 5 bits or '31' in binary.
-  (rs1 >> shift_amount) | (rs1 << (u32:32 - shift_amount))
-}
-
-// sha512sig1l function
 fn sha512sig1l(rs1: u32, rs2: u32) -> u32 {
-  // Specific rotations and shifts for Sigma1
-  let rotation_1: u32 = ror(rs1, u32:16);
-  let rotation_2: u32 = ror(rs2, u32:6);
-  let shift_1: u32 = rs1 >> u32:23;
-  // XOR them all together for the final result
-  let result: u32 = rotation_1 ^ rotation_2 ^ shift_1;
-  // Return the result
-  result
+    // Apply bitwise shifts and rotations on rs1 and rs2.
+    let shift_rs1_3 = rs1 >> 3;
+    let shift_rs1_6 = rs1 >> 6;
+    let shift_rs1_19 = rs1 >> 19;
+    let shift_rs2_29 = rs2 << 29;
+    let shift_rs2_26 = rs2 << 26;
+    let shift_rs2_13 = rs2 << 13;
+    // Combine the results using XOR operation and implicitly return the result.
+    shift_rs1_3 ^ shift_rs1_6 ^ shift_rs1_19 ^ shift_rs2_29 ^ shift_rs2_26 ^ shift_rs2_13
 }
 
 #[test]
 fn test_sha512sig1l() {
-    let rs1 = u32:0b00000000000000000000000100000000; 
-    let rs2 = u32:0b00000000000000000000001000000000; 
-    // Expected operations on rs1 and rs2 based on the given `sha512sig1l` function
-    // Step 1: Right rotation of rs1 by 16 bits: 0b00000001000000000000000000000000
-    // Step 2: Right rotation of rs2 by 6 bits:  0b00000000000000000000000000001000
-    // Step 3: Shift right of rs1 by 23 bits:    0b00000000000000000000000000000000
-    // XOR all the results together
-    // Result: 0b00000001000000000000000000000010
-    let result = sha512sig1l(rs1, rs2);
-    let expected: u32 = u32:0b00000001000000000000000000001000;
-    assert_eq(result, expected);
-    trace_fmt!(" sha512sig1l ");
-    trace_fmt!(" 0x{:x}", result);
+    // Test Input
+    let rs1 = u32:0b00000000000000000000000000000100; 
+    let rs2 = u32:0b00000000000000000000000000000010;
+    // Expected Individual Shift Results
+    // For rs1:
+    // Shifting rs1 by 3 bits:  0b00000000000000000000000000000000
+    // Shifting rs1 by 6 bits:  0b00000000000000000000000000000000
+    // Shifting rs1 by 19 bits: 0b00000000000000000000000000000000
+    // For rs2:
+    // Shifting rs2 by 29 bits: 0b01000000000000000000000000000000
+    // Shifting rs2 by 26 bits: 0b00001000000000000000000000000000
+    // Shifting rs2 by 13 bits: 0b00000000000000000100000000000000
+    // Expected Output
+      let expected_result = u32:0b01001000000000000100000000000000;
+    // Check if the function provides the expected output.
+    assert_eq(sha512sig1l(rs1, rs2), expected_result)
 }
