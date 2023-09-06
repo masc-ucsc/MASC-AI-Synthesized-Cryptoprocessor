@@ -27,5 +27,7 @@ fn test_sha512sig1l() {
     // Expected Output
       let expected_result = u32:0b01001000000000000100000000000000;
     // Check if the function provides the expected output.
-    assert_eq(sha512sig1l(rs1, rs2), expected_result)
+    assert_eq(sha512sig1l(rs1, rs2), expected_result);
+    trace_fmt!(" sha512sig1l ");
+    trace_fmt!(" 0x{:x}", expected_result);
 }
