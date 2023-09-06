@@ -45,29 +45,41 @@ module user_proj_example #(
 
     // Wishbone Slave ports (WB MI A)
     input wb_clk_i,
-    //input wb_rst_i,
-    //input wbs_stb_i,
-    //input wbs_cyc_i,
-    //input wbs_we_i,
-    //input [3:0] wbs_sel_i,
-    //input [31:0] wbs_dat_i,
-    //input [31:0] wbs_adr_i,
-    //output wbs_ack_o,
-    //output [31:0] wbs_dat_o,
+    input wb_rst_i,
+    input wbs_stb_i,
+    input wbs_cyc_i,
+    input wbs_we_i,
+    input [3:0] wbs_sel_i,
+    input [31:0] wbs_dat_i,
+    input [31:0] wbs_adr_i,
+    output wbs_ack_o,
+    output [31:0] wbs_dat_o,
 
     // Logic Analyzer Signals
-    input  [95:0] la_data_in,
-    output [32:0] la_data_out
-    //input  [127:0] la_oenb,
+    input  [127:0] la_data_in,
+    output [127:0] la_data_out,
+    input  [127:0] la_oenb,
 
     // IOs
-    //input  [BITS-1:0] io_in,
-    //output [BITS-1:0] io_out,
-    //output [BITS-1:0] io_oeb,
+    input  [BITS-1:0] io_in,
+    output [BITS-1:0] io_out,
+    output [BITS-1:0] io_oeb,
 
     // IRQ
-    //output [2:0] irq
+    output [2:0] irq
 );
+    // Unused
+    assign wbs_ack_o = 'b0;
+    assign wbs_dat_o = 'b0;
+    
+    assign io_out = 'b0;
+    assign io_oeb = 'b0;
+
+    assign la_data_out[127:33] = 'b0;
+
+    assign irq = 'b0;
+
+
     wire clk;
     //wire rst;
 
@@ -123,7 +135,7 @@ module user_proj_example #(
       .instruction(la_data_in[95:64]),
       .rs1(la_data_in[31:0]),
       .rs2(la_data_in[63:32]),
-      .out(la_data_out)
+      .out(la_data_out[32:0])
     );
 endmodule
 
