@@ -90,17 +90,38 @@ sha256sum1 x3, x1                          // Perform sha256sum1 operation and s
 li x1, 0b00000000000000000000001000000000  // Load second input into x1
 sha256sum1 x3, x1                          // Perform sha256sum1 operation and store result in x3
 
-li x1, 0b00000000000000000000000100000000  // Load first input into x1
-li x2, 0b00000000000000000000001000000000  // Load second input into x2
-sha512sig0h x3, x1, x2                     // Perform sha512sig0h operation and store result in x3
+# Test for sha512sig0h
 
-li x1, 0b00000000000000000000000100000000  // Load first input into x1
-li x2, 0b00000000111111110000000011111111  // Load second input into x2
-sha512sig0l x3, x1, x2                     // Perform sha512sig0l operation and store result in x3
+# Test case 1
+li x1, 0    # Loading 0 into x1 (rs1)
+li x2, 0    # Loading 0 into x2 (rs2)
+sha512sig0h x3, x1, x2
 
-li x1, 0b00000000000000000000000100000000  // Load first input into x1
-li x2, 0b00000000000000000000000000000010  // Load second input into x2
-sha512sig1h x3, x1, x2                     // Perform sha512sig1h operation and store result in x3
+# Test case 2
+li x1, 0b00000001    # Load binary value into x1
+li x2, 0             # Loading 0 into x2
+sha512sig0h x3, x1, x2
+
+# Test case 3
+li x1, 0              # Loading 0 into x1
+li x2, 0b00000001     # Load binary value into x2
+sha512sig0h x3, x1, x2
+
+# Test case 4
+li x1, 0b10101010010101011010101001010101 # Load binary value into x1
+li x2, 0b01010101101010100101010110101010 # Load binary value into x2
+sha512sig0h x3, x1, x2
+
+# Test for sha512sig0l_simple
+li x1, 0b00000000000000000000000000000010 # Load binary value into x1
+li x2, 0b00000000000000000000000000000001 # Load binary value into x2
+sha512sig0l x3, x1, x2
+
+# Test for sha512sig1h
+li x1, 0b00000000000000000000000000000100 # Load binary value into x1
+li x2, 0b00000000000000000000000000000010 # Load binary value into x2
+sha512sig1h x3, x1, x2
+
 
 li x1, 0b00000000000000000000000100000000  // Load first input into x1
 li x2, 0b00000000000000000000001000000000  // Load second input into x2

@@ -13,4 +13,6 @@ fn sha512sig1h(rs1: u32, rs2: u32) -> u32 {
 fn test_sha512sig1h() {
   let result = sha512sig1h(u32:0b00000000000000000000000000000100, u32:0b00000000000000000000000000000010);
   assert_eq(result, u32:0b01000000000000000100000000000000);
+  trace_fmt!(" sha512sig1h ");
+  trace_fmt!(" 0x{:x}", result);
 }

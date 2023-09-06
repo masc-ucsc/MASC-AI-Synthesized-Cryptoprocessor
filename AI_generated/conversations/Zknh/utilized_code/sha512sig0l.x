@@ -15,4 +15,6 @@ fn test_sha512sig0l_simple() {
   let rs2 = u32:0b00000000000000000000000000000001;
   let result = sha512sig0l(rs1, rs2);
   assert_eq(result, u32:0b10000011000000000000000000000001);
+  trace_fmt!(" sha512sig0l ");
+  trace_fmt!(" 0x{:x}", result);
 }

@@ -1795,3 +1795,114 @@ vec2 = np.array([2, 3, 4, 5, 6])
 
 You can now use this consolidated code block to compute the desired distance or similarity between `vec1` and `vec2`.
 
+## You
+below I have a llmHDL program that defines several RISC-V instructions as functions, and then has one test case for each instruction. I need you to write a RISC-V assembly program that is a translation of each of the test cases, in order. No need to use branching logic, just load each of the operands into registers, with the register destination being x3, and use the associated RISC-V instruction. Assume each that each llmHDL function that has its own test case is a legal RISC-V instruction
+```
+fn sha512sig0h(rs1: u32, rs2: u32) -> u32 {
+    let part1 = rs1 >> u32:1; //right
+    let part2 = rs1 >> u32:7;
+    let part3 = rs1 >> u32:8;
+    let part4 = rs2 << u32:31; //left
+    let part5 = rs2 << u32:24; //left
+    // Combine using XOR to produce the result
+    let result = part1 ^ part2 ^ part3 ^ part4 ^ part5;
+    result
+}
+
+#[test]
+fn test_sha512sig0h() {
+    // Test case 1: Simple case where both inputs are zero
+    assert_eq(sha512sig0h(u32:0, u32:0), u32:0);
+    assert_eq(sha512sig0h(u32:0b00000001, u32:0), u32:0b00000000);
+    assert_eq(sha512sig0h(u32:0b00000000, u32:0b00000001), u32:0b10000001000000000000000000000000);
+    // Test case 4: Random bits in both rs1 and rs2
+
+    assert_eq(sha512sig0h(u32:0b10101010010101011010101001010101, u32:0b01010101101010100101010110101010), u32:0b11111110110101000010101111010100);
+    // ... add more test cases as needed
+}
+
+fn sha512sig0l(rs1: u32, rs2: u32) -> u32 {
+    let result =
+        (rs1 >> 1) ^
+        (rs1 >> 7) ^
+        (rs1 >> 8) ^
+        (rs2 << 31) ^
+        (rs2 << 25) ^
+        (rs2 << 24);
+    result
+}
+
+#[test]
+fn test_sha512sig0l_simple() {
+  let rs1 = u32:0b00000000000000000000000000000010;
+  let rs2 = u32:0b00000000000000000000000000000001;
+  let result = sha512sig0l(rs1, rs2);
+  assert_eq(result, u32:0b10000011000000000000000000000001);
+}
+
+fn sha512sig1h(rs1: u32, rs2: u32) -> u32 {
+  // Apply bitwise shifts and rotations
+  let shift1 = rs1 >> 3;
+  let shift2 = rs1 >> 6;
+  let shift3 = rs1 >> 19;
+  let rotate1 = rs2 << 29;  // This will fetch the top 3 bits of rs2
+  let rotate2 = rs2 << 13;  // Shift left by 13 bits
+  // XOR operations
+  shift1 ^ shift2 ^ shift3 ^ rotate1 ^ rotate2
+}
+
+#[test]
+fn test_sha512sig1h() {
+  let result = sha512sig1h(u32:0b00000000000000000000000000000100, u32:0b00000000000000000000000000000010);
+  assert_eq(result, u32:0b01000000000000000100000000000000);
+}
+```
+
+## ChatGPT
+For the given functions and their test cases, I'll provide the corresponding RISC-V assembly program. I'll translate each test case into a series of RISC-V assembly instructions, assuming the provided llmHDL functions map directly to legal RISC-V instructions.
+
+I'll use the following register conventions:
+
+- x1 (rs1) : Source operand 1
+- x2 (rs2) : Source operand 2
+- x3 : Destination register for results
+
+Here is the translation:
+
+```assembly
+# Test for sha512sig0h
+
+# Test case 1
+li x1, 0    # Loading 0 into x1 (rs1)
+li x2, 0    # Loading 0 into x2 (rs2)
+sha512sig0h x3, x1, x2
+
+# Test case 2
+li x1, 0b00000001    # Load binary value into x1
+li x2, 0             # Loading 0 into x2
+sha512sig0h x3, x1, x2
+
+# Test case 3
+li x1, 0              # Loading 0 into x1
+li x2, 0b00000001     # Load binary value into x2
+sha512sig0h x3, x1, x2
+
+# Test case 4
+li x1, 0b10101010010101011010101001010101 # Load binary value into x1
+li x2, 0b01010101101010100101010110101010 # Load binary value into x2
+sha512sig0h x3, x1, x2
+
+# Test for sha512sig0l_simple
+li x1, 0b00000000000000000000000000000010 # Load binary value into x1
+li x2, 0b00000000000000000000000000000001 # Load binary value into x2
+sha512sig0l x3, x1, x2
+
+# Test for sha512sig1h
+li x1, 0b00000000000000000000000000000100 # Load binary value into x1
+li x2, 0b00000000000000000000000000000010 # Load binary value into x2
+sha512sig1h x3, x1, x2
+
+```
+
+Remember, this assembly code is just a direct translation of the provided test cases, assuming that there are RISC-V instructions with names `sha512sig0h`, `sha512sig0l`, and `sha512sig1h` which directly correspond to the described llmHDL functions.
+
