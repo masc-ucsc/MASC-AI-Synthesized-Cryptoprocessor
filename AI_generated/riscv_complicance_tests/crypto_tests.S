@@ -123,7 +123,6 @@ li x2, 0b00000000000000000000000000000001 # Load binary value into x2
 sha512sig1h x3, x1, x2
 
 
-
 li x1, 0b00000000000000000000000000000010  // Load first input into x1
 li x2, 0b00000000000000000000000000000001  // Load second input into x2
 sha512sig1l x3, x1, x2                     // Perform sha512sig1l operation and store result in x3
