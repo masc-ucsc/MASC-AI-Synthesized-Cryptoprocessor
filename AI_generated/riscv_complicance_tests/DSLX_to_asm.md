@@ -892,8 +892,8 @@ fn sha512sig1h(rs1: u32, rs2: u32) -> u32 {
 #[test]
 fn test_sha512sig1h() {
     // Test Input
-    let rs1 = u32:0b00000000000000000000000000000100; 
-    let rs2 = u32:0b00000000000000000000000000000010;
+    let rs1 = u32:0b00000000000000000000000000000010; 
+    let rs2 = u32:0b00000000000000000000000000000001;
 
     // Expected result calculation
     let expected_result = (rs1 >> u32:3) ^ 
@@ -1345,8 +1345,8 @@ fn sha512sig1h(rs1: u32, rs2: u32) -> u32 {
 #[test]
 fn test_sha512sig1h() {
     // Test Input
-    let rs1 = u32:0b00000000000000000000000000000100; 
-    let rs2 = u32:0b00000000000000000000000000000010;
+    let rs1 = u32:0b00000000000000000000000000000010; 
+    let rs2 = u32:0b00000000000000000000000000000001;
 
     // Expected result calculation
     let expected_result = (rs1 >> u32:3) ^ 
@@ -1620,8 +1620,8 @@ sha512sig0l x3, x1, x2                     // Perform sha512sig0l operation and 
 1. test_sha512sig1h:
 
 ```assembly
-li x1, 0b00000000000000000000000000000100 # Load binary value into x1
-li x2, 0b00000000000000000000000000000010 # Load binary value into x2
+li x1, 0b00000000000000000000000000000010 # Load binary value into x1
+li x2, 0b00000000000000000000000000000001 # Load binary value into x2
 sha512sig1h x3, x1, x2                     // Perform sha512sig1h operation and store result in x3
 
 ```
@@ -1629,8 +1629,8 @@ sha512sig1h x3, x1, x2                     // Perform sha512sig1h operation and 
 1. test_sha512sig1l:
 
 ```assembly
-li x1, 0b00000000000000000000000000000100  // Load first input into x1
-li x2, 0b00000000000000000000000000000010  // Load second input into x2
+li x1, 0b00000000000000000000000000000010  // Load first input into x1
+li x2, 0b00000000000000000000000000000001  // Load second input into x2
 sha512sig1l x3, x1, x2                     // Perform sha512sig1l operation and store result in x3
 
 ```
@@ -1771,8 +1771,8 @@ fn sha512sig1h(rs1: u32, rs2: u32) -> u32 {
 #[test]
 fn test_sha512sig1h() {
     // Test Input
-    let rs1 = u32:0b00000000000000000000000000000100; 
-    let rs2 = u32:0b00000000000000000000000000000010;
+    let rs1 = u32:0b00000000000000000000000000000010; 
+    let rs2 = u32:0b00000000000000000000000000000001;
 
     // Expected result calculation
     let expected_result = (rs1 >> u32:3) ^ 
@@ -1828,8 +1828,8 @@ li x2, 0b00000000000000000000000000000001 # Load binary value into x2
 sha512sig0l x3, x1, x2
 
 # Test for sha512sig1h
-li x1, 0b00000000000000000000000000000100 # Load binary value into x1
-li x2, 0b00000000000000000000000000000010 # Load binary value into x2
+li x1, 0b00000000000000000000000000000010 # Load binary value into x1
+li x2, 0b00000000000000000000000000000001 # Load binary value into x2
 sha512sig1h x3, x1, x2
 
 ```

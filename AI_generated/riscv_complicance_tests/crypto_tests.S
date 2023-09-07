@@ -118,16 +118,21 @@ li x2, 0b00000000000000000000000000000001 # Load binary value into x2
 sha512sig0l x3, x1, x2
 
 # Test for sha512sig1h
-li x1, 0b00000000000000000000000000000100 # Load binary value into x1
-li x2, 0b00000000000000000000000000000010 # Load binary value into x2
+li x1, 0b00000000000000000000000000000010 # Load binary value into x1
+li x2, 0b00000000000000000000000000000001 # Load binary value into x2
 sha512sig1h x3, x1, x2
+
+
+
+li x1, 0b00000000000000000000000000000010  // Load first input into x1
+li x2, 0b00000000000000000000000000000001  // Load second input into x2
+sha512sig1l x3, x1, x2                     // Perform sha512sig1l operation and store result in x3
 
 
 
 li x1, 0b00000000000000000000000000000100  // Load first input into x1
 li x2, 0b00000000000000000000000000000010  // Load second input into x2
-sha512sig1l x3, x1, x2                     // Perform sha512sig1l operation and store result in x3
-
+aes32esi x3, x1, x2, 0                     // Perform sha512sig1l operation and store result in x3
 
 _success:
 	// program exits as expected
