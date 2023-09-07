@@ -45,69 +45,34 @@ fn aes_sbox_inv(input: u8) -> u8 {
 }
 
 
-fn gmul(a: u8, b: u8) -> u8 {
-    
-    // 1st Iteration
-    let p1 = if (b & u8:1) == u8:1 { a } else { u8:0 };
-    let hi_bit_set1 = a & u8:0x80;
-    let a1 = if hi_bit_set1 == u8:0x80 { (a << 1) ^ u8:0x1b } else { a << 1 };
-    let b1 = b >> 1;
-
-    // 2nd Iteration
-    let p2 = if (b1 & u8:1) == u8:1 { a1 } else { u8:0 };
-    let hi_bit_set2 = a1 & u8:0x80;
-    let a2 = if hi_bit_set2 == u8:0x80 { (a1 << 1) ^ u8:0x1b } else { a1 << 1 };
-    let b2 = b1 >> 1;
-
-    // 3rd Iteration
-    let p3 = if (b2 & u8:1) == u8:1 { a2 } else { u8:0 };
-    let hi_bit_set3 = a2 & u8:0x80;
-    let a3 = if hi_bit_set3 == u8:0x80 { (a2 << 1) ^ u8:0x1b } else { a2 << 1 };
-    let b3 = b2 >> 1;
-
-    // 4th Iteration
-    let p4 = if (b3 & u8:1) == u8:1 { a3 } else { u8:0 };
-    let hi_bit_set4 = a3 & u8:0x80;
-    let a4 = if hi_bit_set4 == u8:0x80 { (a3 << 1) ^ u8:0x1b } else { a3 << 1 };
-    let b4 = b3 >> 1;
-
-    // 5th Iteration
-    let p5 = if (b4 & u8:1) == u8:1 { a4 } else { u8:0 };
-    let hi_bit_set5 = a4 & u8:0x80;
-    let a5 = if hi_bit_set5 == u8:0x80 { (a4 << 1) ^ u8:0x1b } else { a4 << 1 };
-    let b5 = b4 >> 1;
-
-    // 6th Iteration
-    let p6 = if (b5 & u8:1) == u8:1 { a5 } else { u8:0 };
-    let hi_bit_set6 = a5 & u8:0x80;
-    let a6 = if hi_bit_set6 == u8:0x80 { (a5 << 1) ^ u8:0x1b } else { a5 << 1 };
-    let b6 = b5 >> 1;
-
-    // 7th Iteration
-    let p7 = if (b6 & u8:1) == u8:1 { a6 } else { u8:0 };
-    let hi_bit_set7 = a6 & u8:0x80;
-    let a7 = if hi_bit_set7 == u8:0x80 { (a6 << 1) ^ u8:0x1b } else { a6 << 1 };
-    let b7 = b6 >> 1;
-
-    // 8th Iteration
-    let p8 = if (b7 & u8:1) == u8:1 { a7 } else { u8:0 };
-
-    // Combine all the results
-    p1 ^ p2 ^ p3 ^ p4 ^ p5 ^ p6 ^ p7 ^ p8
+fn aes_xtime(a: u8) -> u8 {
+    let xshifted: u8 = a << 1;
+    let conditional_xor: u8 = if a & u8:0x80 != u8:0 { u8:0x1b } else { u8:0 };
+    xshifted ^ conditional_xor
 }
 
+fn gmul(a: u8, b: u8) -> u8 {
+    let term_1: u8 = if b & u8:0x1 != u8:0 { a } else { u8:0 };
+    let term_2: u8 = if b & u8:0x2 != u8:0 { aes_xtime(a) } else { u8:0 };
+    let term_3: u8 = if b & u8:0x4 != u8:0 { aes_xtime(aes_xtime(a)) } else { u8:0 };
+    let term_4: u8 = if b & u8:0x8 != u8:0 { aes_xtime(aes_xtime(aes_xtime(a))) } else { u8:0 };
+
+    (term_1 ^ term_2 ^ term_3 ^ term_4) & u8:0xFF
+}
+
+
 fn aes_mixcolumn_byte_inv(byte: u8) -> u32 {
-    let result_1: u32 = (gmul(u8:0x0E, byte) as u32) << 24;
-    let result_2: u32 = (gmul(u8:0x0B, byte) as u32) << 16;
-    let result_3: u32 = (gmul(u8:0x0D, byte) as u32) << 8;
-    let result_4: u32 = gmul(u8:0x09, byte) as u32;
-    
+    let result_1: u32 = (gmul(byte, u8:0x0B) as u32) << 24;
+    let result_2: u32 = (gmul(byte, u8:0x0D) as u32) << 16;
+    let result_3: u32 = (gmul(byte, u8:0x09) as u32) << 8;
+    let result_4: u32 = gmul(byte, u8:0x0E) as u32;
+
     result_1 | result_2 | result_3 | result_4
 }
 
 
 fn aes32dsmi(bs: u8, rs2: u32, rs1: u32) -> u32 {
-    let shamt: u8 = (bs << 3) & u8:0b11111;  // Only the lower 5 bits are used, shifted by 3 to multiply by 8.
+    let shamt: u8 = (bs << 3);  // Only the lower 5 bits are used, shifted by 3 to multiply by 8.
     let si: u8 = (rs2 >> shamt) as u8; 
     let so: u8 = (aes_sbox_inv(si) );  // Zero-extend by putting the result in the top byte.
     let mixed: u32 = aes_mixcolumn_byte_inv(so ); 
@@ -132,9 +97,14 @@ fn test_aes32dsmi() {
 
     // The expected value here is just a placeholder. You would need to calculate the expected 
     // output using another reliable method (like a reference implementation) to replace this placeholder.
-    let expected_output: u32 = u32:0x12345678;  // Placeholder value.
+//    let expected_output: u32 = u32:0x12345678;  // Placeholder value.
 
     // Check if the function produces the expected result.
-    assert_eq(aes32dsmi(bs_test, rs2_test, rs1_test), expected_output);
+//    assert_eq(aes32dsmi(bs_test, rs2_test, rs1_test), expected_output);
+    trace_fmt!(" aes32dsmi ");
+    trace_fmt!(" 0x{:x}", aes32dsmi(bs_test, rs2_test, rs1_test));
+    trace_fmt!("aes_xtime 0x{:x}",aes_xtime(u8:99));
+    trace_fmt!("gmul 0x{:x}", gmul(u8:99, u8:100));
+    trace_fmt!("aes mixclumn 0x{:x}", aes_mixcolumn_byte_inv(u8:99));
 }
 

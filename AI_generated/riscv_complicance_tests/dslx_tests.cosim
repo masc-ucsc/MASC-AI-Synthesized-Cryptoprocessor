@@ -13,6 +13,7 @@
  unzip 0xaaaaaaaa
  aes32dsi 0x00000052
  aes32dsi 0x11117011
+ aes32dsmi 0x52c09e6a
  aes32esi 0x000000ff
  aes32esmi 0x00000204
  sha256sig0 0x4bea8ccf
