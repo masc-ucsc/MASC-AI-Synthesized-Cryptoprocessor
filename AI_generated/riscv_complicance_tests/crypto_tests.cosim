@@ -25,3 +25,5 @@
  sha512sig1l 0x04002010
  aes32esi 0x00000073
  aes32esmi 0x6363c6a1
+ aes32dsi 0x00005204
+ aes32dsmi 0xa7f45154

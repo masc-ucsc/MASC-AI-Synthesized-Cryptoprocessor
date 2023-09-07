@@ -4,7 +4,7 @@ spike_log="./crypto_tests.out"
 dslx_file="./dslx_tests.cosim"
 dslx_log="./check_all.out"
 
-instruction_list=("ror" "rol" "rori" "andn" "orn" "xnor" "pack" "packh" "brev8" "rev8" "shfli" "zip" "unshfli" "unzip" "sha256sig0" "sha256sig1" "sha256sum0" "sha256sum1" "sha512sig0h" "sha512sig0l" "sha512sig1h" "sha512sig1l" "aes32esi" "aes32esmi")
+instruction_list=("ror" "rol" "rori" "andn" "orn" "xnor" "pack" "packh" "brev8" "rev8" "shfli" "zip" "unshfli" "unzip" "sha256sig0" "sha256sig1" "sha256sum0" "sha256sum1" "sha512sig0h" "sha512sig0l" "sha512sig1h" "sha512sig1l" "aes32dsi" "aes32dsmi" "aes32esi" "aes32esmi")
 
 # reformats spike/DSLX log to isolate crypto instruction execution
 # alongside the writeback value
