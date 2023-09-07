@@ -880,70 +880,112 @@ fn test_sha512sig0l() {
     let expected = u32:0b00000000111111110000000011111100;
     assert_eq(sha512sig0l(rs1, rs2), expected);
 }
+fn ror(rs1: u32, rs2: u32) -> u32 {
+
+  const XLEN: u32 = u32:32;
+
+  let shift_amount: u32 = rs2 & u32:31;  // Limit the shift amount to 5 bits
+
+  (rs1 >> shift_amount) | (rs1 << (XLEN - shift_amount))
+
+}
+
+
 
 fn sha512sig1h(rs1: u32, rs2: u32) -> u32 {
-    (rs1 >> u32:3) ^ 
-    (rs1 >> u32:6) ^ 
-    (rs1 >> u32:19) ^ 
-    (rs2 << u32:29) ^ 
-    (rs2 << u32:13)
-}
 
-#[test]
-fn test_sha512sig1h() {
-    // Test Input
-    let rs1 = u32:0b00000000000000000000000000000010; 
-    let rs2 = u32:0b00000000000000000000000000000001;
+    // Placeholder operations for illustration purposes
 
-    // Expected result calculation
-    let expected_result = (rs1 >> u32:3) ^ 
-                          (rs1 >> u32:6) ^ 
-                          (rs1 >> u32:19) ^ 
-                          (rs2 << u32:29) ^ 
-                          (rs2 << u32:13);
+    let rotation_1 = ror(rs1, u32:14);  // Right rotate rs1 by 14 bits
 
-    assert_eq(sha512sig1h(rs1, rs2), expected_result);
-    trace_fmt!(" sha512sig1h ");
-    trace_fmt!(" 0x{:x}", expected_result);
-}
+    let rotation_2 = ror(rs1, u32:18);  // Right rotate rs1 by 18 bits
+
+    let rotation_3 = ror(rs2, u32:9);   // Right rotate rs2 by 9 bits
 
 
 
-fn sha512sig1l(rs1: u32, rs2: u32) -> u32 {
-    let rs1_shift_3 = rs1 >> u32:3;
-    let rs1_shift_6 = rs1 >> u32:6;
-    let rs1_shift_19 = rs1 >> u32:19;
+    // Combine the results using XOR
 
-    let rs2_shift_left_29 = rs2 << u32:29;
-    let rs2_shift_left_26 = rs2 << u32:26;
-    let rs2_shift_left_13 = rs2 << u32:13;
+    let result = rotation_1 ^ rotation_2 ^ rotation_3;
 
-    let result = rs1_shift_3 ^ rs1_shift_6 ^ rs1_shift_19 ^ rs2_shift_left_29 ^ rs2_shift_left_26 ^ rs2_shift_left_13;
+
 
     result
+
 }
 
+
+
+#[test]
+
+fn test_sha512sig1h() {
+
+    let rs1 = u32:0b00000000000000000000000100000000;  // Example 32-bit high data
+
+    let rs2 = u32:0b00000000000000000000000000000010;  // Example 32-bit low data
+
+
+
+    let result = sha512sig1h(rs1, rs2);
+
+
+
+    // Expected results based on our operations:
+
+    // Step 1: Right rotation of rs1 by 14 bits:  0b00000100000000000000000000000000
+
+    // Step 2: Right rotation of rs1 by 18 bits:  0b00000000010000000000000000000000
+
+    // Step 3: Right rotation of rs2 by 9 bits:   0b00000001000000000000000000000000
+
+
+
+    // XOR the results together:
+
+    let expected = u32:0b00000101010000000000000000000000;
+
+
+
+
+
+    assert_eq(result, expected);
+
+}
+
+
+
+// Rotate right function
+fn ror(rs1: u32, rs2: u32) -> u32 {
+  let shift_amount: u32 = rs2 & u32:31;  // Limit the shift amount to log2(32) bits which is 5 bits or '31' in binary.
+  (rs1 >> shift_amount) | (rs1 << (u32:32 - shift_amount))
+}
+
+// sha512sig1l function
+fn sha512sig1l(rs1: u32, rs2: u32) -> u32 {
+  // Specific rotations and shifts for Sigma1
+  let rotation_1: u32 = ror(rs1, u32:16);
+  let rotation_2: u32 = ror(rs2, u32:6);
+  let shift_1: u32 = rs1 >> u32:23;
+  // XOR them all together for the final result
+  let result: u32 = rotation_1 ^ rotation_2 ^ shift_1;
+  // Return the result
+  result
+}
 
 #[test]
 fn test_sha512sig1l() {
-    // Test Input
-    let rs1 = u32:0b00000000000000000000000000000100;
-    let rs2 = u32:0b00000000000000000000000000000010;
-
-    // Calculating expected result using individual shifts and XOR operations
-    let expected_result = (rs1 >> u32:3) ^ 
-                          (rs1 >> u32:6) ^ 
-                          (rs1 >> u32:19) ^ 
-                          (rs2 << u32:29) ^ 
-                          (rs2 << u32:26) ^ 
-                          (rs2 << u32:13);
-
-    // Check if the function's output matches the expected result
-    assert_eq(sha512sig1l(rs1, rs2), expected_result);
-    trace_fmt!(" sha512sig1l ");
-    trace_fmt!(" 0x{:x}", expected_result);
+    let rs1 = u32:0b00000000000000000000000100000000;
+    let rs2 = u32:0b00000000000000000000001000000000;
+    // Expected operations on rs1 and rs2 based on the given `sha512sig1l` function
+    // Step 1: Right rotation of rs1 by 16 bits: 0b00000001000000000000000000000000
+    // Step 2: Right rotation of rs2 by 6 bits:  0b00000000000000000000000000001000
+    // Step 3: Shift right of rs1 by 23 bits:    0b00000000000000000000000000000000
+    // XOR all the results together
+    // Result: 0b00000001000000000000000000000010
+    let result = sha512sig1l(rs1, rs2);
+    let expected: u32 = u32:0b00000001000000000000000000001000;
+    assert_eq(result, expected);
 }
-
 const XLEN: u32 = u32:32;
 
 
@@ -1334,31 +1376,78 @@ fn test_sha512sig0l() {
     let expected = u32:0b00000000111111110000000011111100;
     assert_eq(sha512sig0l(rs1, rs2), expected);
 }
-fn sha512sig1h(rs1: u32, rs2: u32) -> u32 {
-    (rs1 >> u32:3) ^ 
-    (rs1 >> u32:6) ^ 
-    (rs1 >> u32:19) ^ 
-    (rs2 << u32:29) ^ 
-    (rs2 << u32:13)
+fn ror(rs1: u32, rs2: u32) -> u32 {
+
+  const XLEN: u32 = u32:32;
+
+  let shift_amount: u32 = rs2 & u32:31;  // Limit the shift amount to 5 bits
+
+  (rs1 >> shift_amount) | (rs1 << (XLEN - shift_amount))
+
 }
+
+
+
+fn sha512sig1h(rs1: u32, rs2: u32) -> u32 {
+
+    // Placeholder operations for illustration purposes
+
+    let rotation_1 = ror(rs1, u32:14);  // Right rotate rs1 by 14 bits
+
+    let rotation_2 = ror(rs1, u32:18);  // Right rotate rs1 by 18 bits
+
+    let rotation_3 = ror(rs2, u32:9);   // Right rotate rs2 by 9 bits
+
+
+
+    // Combine the results using XOR
+
+    let result = rotation_1 ^ rotation_2 ^ rotation_3;
+
+
+
+    result
+
+}
+
+
 
 #[test]
+
 fn test_sha512sig1h() {
-    // Test Input
-    let rs1 = u32:0b00000000000000000000000000000010; 
-    let rs2 = u32:0b00000000000000000000000000000001;
 
-    // Expected result calculation
-    let expected_result = (rs1 >> u32:3) ^ 
-                          (rs1 >> u32:6) ^ 
-                          (rs1 >> u32:19) ^ 
-                          (rs2 << u32:29) ^ 
-                          (rs2 << u32:13);
+    let rs1 = u32:0b00000000000000000000000100000000;  // Example 32-bit high data
 
-    assert_eq(sha512sig1h(rs1, rs2), expected_result);
-    trace_fmt!(" sha512sig1h ");
-    trace_fmt!(" 0x{:x}", expected_result);
+    let rs2 = u32:0b00000000000000000000000000000010;  // Example 32-bit low data
+
+
+
+    let result = sha512sig1h(rs1, rs2);
+
+
+
+    // Expected results based on our operations:
+
+    // Step 1: Right rotation of rs1 by 14 bits:  0b00000100000000000000000000000000
+
+    // Step 2: Right rotation of rs1 by 18 bits:  0b00000000010000000000000000000000
+
+    // Step 3: Right rotation of rs2 by 9 bits:   0b00000001000000000000000000000000
+
+
+
+    // XOR the results together:
+
+    let expected = u32:0b00000101010000000000000000000000;
+
+
+
+
+
+    assert_eq(result, expected);
+
 }
+
 
 
 // Rotate right function
@@ -1367,41 +1456,32 @@ fn ror(rs1: u32, rs2: u32) -> u32 {
   (rs1 >> shift_amount) | (rs1 << (u32:32 - shift_amount))
 }
 
+// sha512sig1l function
 fn sha512sig1l(rs1: u32, rs2: u32) -> u32 {
-    let rs1_shift_3 = rs1 >> u32:3;
-    let rs1_shift_6 = rs1 >> u32:6;
-    let rs1_shift_19 = rs1 >> u32:19;
-
-    let rs2_shift_left_29 = rs2 << u32:29;
-    let rs2_shift_left_26 = rs2 << u32:26;
-    let rs2_shift_left_13 = rs2 << u32:13;
-
-    let result = rs1_shift_3 ^ rs1_shift_6 ^ rs1_shift_19 ^ rs2_shift_left_29 ^ rs2_shift_left_26 ^ rs2_shift_left_13;
-
-    result
+  // Specific rotations and shifts for Sigma1
+  let rotation_1: u32 = ror(rs1, u32:16);
+  let rotation_2: u32 = ror(rs2, u32:6);
+  let shift_1: u32 = rs1 >> u32:23;
+  // XOR them all together for the final result
+  let result: u32 = rotation_1 ^ rotation_2 ^ shift_1;
+  // Return the result
+  result
 }
-
 
 #[test]
 fn test_sha512sig1l() {
-    // Test Input
-    let rs1 = u32:0b00000000000000000000000000000100;
-    let rs2 = u32:0b00000000000000000000000000000010;
-
-    // Calculating expected result using individual shifts and XOR operations
-    let expected_result = (rs1 >> u32:3) ^ 
-                          (rs1 >> u32:6) ^ 
-                          (rs1 >> u32:19) ^ 
-                          (rs2 << u32:29) ^ 
-                          (rs2 << u32:26) ^ 
-                          (rs2 << u32:13);
-
-    // Check if the function's output matches the expected result
-    assert_eq(sha512sig1l(rs1, rs2), expected_result);
-    trace_fmt!(" sha512sig1l ");
-    trace_fmt!(" 0x{:x}", expected_result);
+    let rs1 = u32:0b00000000000000000000000100000000;
+    let rs2 = u32:0b00000000000000000000001000000000;
+    // Expected operations on rs1 and rs2 based on the given `sha512sig1l` function
+    // Step 1: Right rotation of rs1 by 16 bits: 0b00000001000000000000000000000000
+    // Step 2: Right rotation of rs2 by 6 bits:  0b00000000000000000000000000001000
+    // Step 3: Shift right of rs1 by 23 bits:    0b00000000000000000000000000000000
+    // XOR all the results together
+    // Result: 0b00000001000000000000000000000010
+    let result = sha512sig1l(rs1, rs2);
+    let expected: u32 = u32:0b00000001000000000000000000001000;
+    assert_eq(result, expected);
 }
-
 const XLEN: u32 = u32:32;
 
 
@@ -1620,8 +1700,8 @@ sha512sig0l x3, x1, x2                     // Perform sha512sig0l operation and 
 1. test_sha512sig1h:
 
 ```assembly
-li x1, 0b00000000000000000000000000000010 # Load binary value into x1
-li x2, 0b00000000000000000000000000000001 # Load binary value into x2
+li x1, 0b00000000000000000000000100000000  // Load first input into x1
+li x2, 0b00000000000000000000000000000010  // Load second input into x2
 sha512sig1h x3, x1, x2                     // Perform sha512sig1h operation and store result in x3
 
 ```
@@ -1629,8 +1709,8 @@ sha512sig1h x3, x1, x2                     // Perform sha512sig1h operation and 
 1. test_sha512sig1l:
 
 ```assembly
-li x1, 0b00000000000000000000000000000010  // Load first input into x1
-li x2, 0b00000000000000000000000000000001  // Load second input into x2
+li x1, 0b00000000000000000000000100000000  // Load first input into x1
+li x2, 0b00000000000000000000001000000000  // Load second input into x2
 sha512sig1l x3, x1, x2                     // Perform sha512sig1l operation and store result in x3
 
 ```
@@ -1761,31 +1841,21 @@ fn test_sha512sig0l_simple() {
 }
 
 fn sha512sig1h(rs1: u32, rs2: u32) -> u32 {
-    (rs1 >> u32:3) ^ 
-    (rs1 >> u32:6) ^ 
-    (rs1 >> u32:19) ^ 
-    (rs2 << u32:29) ^ 
-    (rs2 << u32:13)
+  // Apply bitwise shifts and rotations
+  let shift1 = rs1 >> 3;
+  let shift2 = rs1 >> 6;
+  let shift3 = rs1 >> 19;
+  let rotate1 = rs2 << 29;  // This will fetch the top 3 bits of rs2
+  let rotate2 = rs2 << 13;  // Shift left by 13 bits
+  // XOR operations
+  shift1 ^ shift2 ^ shift3 ^ rotate1 ^ rotate2
 }
 
 #[test]
 fn test_sha512sig1h() {
-    // Test Input
-    let rs1 = u32:0b00000000000000000000000000000010; 
-    let rs2 = u32:0b00000000000000000000000000000001;
-
-    // Expected result calculation
-    let expected_result = (rs1 >> u32:3) ^ 
-                          (rs1 >> u32:6) ^ 
-                          (rs1 >> u32:19) ^ 
-                          (rs2 << u32:29) ^ 
-                          (rs2 << u32:13);
-
-    assert_eq(sha512sig1h(rs1, rs2), expected_result);
-    trace_fmt!(" sha512sig1h ");
-    trace_fmt!(" 0x{:x}", expected_result);
+  let result = sha512sig1h(u32:0b00000000000000000000000000000100, u32:0b00000000000000000000000000000010);
+  assert_eq(result, u32:0b01000000000000000100000000000000);
 }
-
 ```
 
 ## ChatGPT
@@ -1828,11 +1898,263 @@ li x2, 0b00000000000000000000000000000001 # Load binary value into x2
 sha512sig0l x3, x1, x2
 
 # Test for sha512sig1h
-li x1, 0b00000000000000000000000000000010 # Load binary value into x1
-li x2, 0b00000000000000000000000000000001 # Load binary value into x2
+li x1, 0b00000000000000000000000000000100 # Load binary value into x1
+li x2, 0b00000000000000000000000000000010 # Load binary value into x2
 sha512sig1h x3, x1, x2
 
 ```
 
 Remember, this assembly code is just a direct translation of the provided test cases, assuming that there are RISC-V instructions with names `sha512sig0h`, `sha512sig0l`, and `sha512sig1h` which directly correspond to the described llmHDL functions.
+
+## You
+below I have a llmHDL program that defines a RISC-V instruction as a function, and then test cases for it. I need you to write a RISC-V assembly program that is a translation of each of the test cases, in order. No need to use branching logic, just load each of the operands into registers, with the register destination being x3, and use the associated RISC-V instruction. Assume each that each llmHDL function that has its own test case is a legal RISC-V instruction
+This is the RISCV mnemonic for the instruction:   aes32dsi rd, rs1, rs2, bs:
+```
+fn aes32dsi(bs: u8, rs2: u32, rs1: u32) -> u32 {
+ 49     // Shift by 3 to effectively multiply by 8, and mask to keep it as 5 bits
+ 50     let shamt: u8 = (bs << 3) & u8:0x1F;  // Resultant value will be in the range [0, 31]
+ 51     let si: u8 = ((rs2 >> shamt) & u32:0xFF) as u8;  // Extract the byte specified by bs
+ 52
+ 53     // Get the inverse SBox value and then zero-extend it to 32 bits
+ 54     let sbox_inv_val: u8 = aes_sbox_inv(si);
+ 55     let so: u32 = sbox_inv_val as u32;
+ 56
+ 57     let result: u32 = rs1 ^ rol(so, shamt as u32);
+ 58
+ 59     result
+ 60 }
+// Case 1: Test with zero values
+ 67     let rs2_1: u32 = u32:0;
+ 68     let rs1_1: u32 = u32:0;
+ 69     let bs_1: u8 = u8:0;
+ 70     assert_eq(aes32dsi(bs_1, rs2_1, rs1_1), u32:0x52);  // 0x52 is the inverse sbox value for 0x00.
+ 73
+ 74     // Case 2: Test with non-zero values
+ 75     let rs2_2: u32 = u32:0xefefefef;
+ 76     let rs1_2: u32 = u32:0x11111111;
+ 77     let bs_2: u8 = u8:1;  // Targeting the second byte from the right
+ 78     assert_eq(aes32dsi(bs_2, rs2_2, rs1_2), u32:0x11117011);  // 0x61 XORed with its original position results in 0x    70.
+```
+
+## ChatGPT
+Given the provided `aes32dsi` function and its test cases, we can translate the test cases into RISC-V assembly instructions. I'll use the following register conventions:
+
+- x1 (rs1) : Source operand 1
+- x2 (rs2) : Source operand 2
+- x3 : Destination register for results
+- x4 : Temporary register for holding the immediate value for bs
+
+Here's the translation:
+
+```assembly
+# Test for aes32dsi
+
+# Case 1: Test with zero values
+li x1, 0    # Load 0 into x1 (rs1)
+li x2, 0    # Load 0 into x2 (rs2)
+li x4, 0    # Load 0 (value for bs) into x4
+aes32dsi x3, x1, x2, x4    # Assuming aes32dsi is a legal RISC-V instruction
+                           # Note: In the actual RISC-V, there isn't a 4-register operation. But since this is hypothetical, we'll continue with the representation.
+
+# Case 2: Test with non-zero values
+li x1, 0x11111111    # Load 0x11111111 into x1 (rs1)
+li x2, 0xefefefef    # Load 0xefefefef into x2 (rs2)
+li x4, 1             # Load 1 (value for bs) into x4
+aes32dsi x3, x1, x2, x4    # Execute the aes32dsi instruction with the loaded values
+
+```
+
+Please note that the actual RISC-V architecture doesn't have a four-operand instruction format as shown with `aes32dsi`. This translation is based on the assumption that such an instruction exists in your hypothetical scenario.
+
+## You
+bs is actually an immediate operand, could you rewrite it given this new information
+
+## ChatGPT
+Of course! If `bs` is an immediate operand, we don't need to load it into a register. Instead, we can represent it directly in the instruction. Here's the revised assembly:
+
+```assembly
+# Test for aes32dsi
+
+# Case 1: Test with zero values
+li x1, 0    # Load 0 into x1 (rs1)
+li x2, 0    # Load 0 into x2 (rs2)
+aes32dsi x3, x1, x2, 0    # Using the immediate value 0 for bs
+
+# Case 2: Test with non-zero values
+li x1, 0x11111111    # Load 0x11111111 into x1 (rs1)
+li x2, 0xefefefef    # Load 0xefefefef into x2 (rs2)
+aes32dsi x3, x1, x2, 1    # Using the immediate value 1 for bs
+
+```
+
+In this case, `bs` is given directly as an immediate value in the `aes32dsi` instruction.
+
+## You
+good, now can you do the same for this function definition and test case:
+```
+fn aes32dsmi(bs: u8, rs2: u32, rs1: u32) -> u32 {
+110     let shamt: u8 = (bs << 3) & u8:0b11111;  // Only the lower 5 bits are used, shifted by 3 to multiply by 8.
+111     let si: u8 = (rs2 >> shamt) as u8;
+112     let so: u8 = (aes_sbox_inv(si) );  // Zero-extend by putting the result in the top byte.
+113     let mixed: u32 = aes_mixcolumn_byte_inv(so );
+114     let result: u32 = rs1 ^ rol(mixed, shamt as u32);
+115     result
+116 }
+#[test]
+119 fn test_aes32dsmi() {
+120     // Sample values based on our understanding of the operations.
+121     let bs_test: u8 = u8:0b00001;  // Corresponds to a shift amount of 8.
+122     let rs2_test: u32 = u32:0x11223344;  // Random 32-bit value.
+123     let rs1_test: u32 = u32:0xAABBCCDD;  // Another random 32-bit value.
+124
+125     // Expected result calculation:
+126     // We will extract the byte from rs2 using the shift amount determined by bs.
+127     // For the given values, the extracted byte would be 0x33.
+128     // Then, we'll apply the inverse SBox and then the partial inverse MixColumn.
+129     // Finally, the result is rotated and XORed with rs1.
+130     // The exact result would depend on the aes_sbox_inv and aes_mixcolumn_byte_inv functions,
+131     // which were defined earlier.
+132
+133     // The expected value here is just a placeholder. You would need to calculate the expected
+134     // output using another reliable method (like a reference implementation) to replace this placeholder.
+135     let expected_output: u32 = u32:0x12345678;  // Placeholder value.
+136
+137     // Check if the function produces the expected result.
+138     assert_eq(aes32dsmi(bs_test, rs2_test, rs1_test), expected_output);
+139 }
+```
+
+## ChatGPT
+Alright, translating the given function and its test into a RISC-V assembly program:
+
+```assembly
+# Test for aes32dsmi
+
+# Sample values based on our understanding of the operations
+li x1, 0xAABBCCDD       # Load 0xAABBCCDD into x1 (rs1)
+li x2, 0x11223344       # Load 0x11223344 into x2 (rs2)
+aes32dsmi x3, x1, x2, 0b00001   # Using the immediate value 0b00001 for bs
+
+```
+
+Here:
+
+- x1 serves as the rs1 register.
+- x2 serves as the rs2 register.
+- x3 will contain the result of the operation.
+
+Note: The comment states that the exact output depends on the implementation of the `aes_sbox_inv` and `aes_mixcolumn_byte_inv` functions. In this assembly, I've assumed that the aes32dsmi instruction encapsulates this behavior. Also, since the expected output `0x12345678` is just a placeholder, it's not explicitly referenced in the assembly code.
+
+## You
+good, can you do the same for 
+```
+fn aes32esi(rs1: u32, rs2: u32, bs: u8) -> u32 {
+    let bs_32 = bs as u32;
+    let shamt = bs_32 * u32:8;
+    let extracted_byte = (rs2 >> shamt) as u8;
+
+    // Simplified AES SBox operation
+    let substituted_byte = if (extracted_byte == u8:0x00) { u8:0x63 }
+                          else if (extracted_byte == u8:0x01) { u8:0x7C }
+                          else { u8:0x3F };  // Placeholder for other values
+
+    let substituted_word = substituted_byte as u32;
+    let merged_word = substituted_word << shamt;
+
+    rs1 ^ merged_word
+}
+
+
+
+#[test]
+fn aes32esi_test() {
+    // Test Input
+    let rs1 = u32:0b00000000000000000000000000000100;
+    let rs2 = u32:0b00000000000000000000000000000010;
+    let bs = u8:0; // Select the first byte (least significant byte) from rs2
+
+    // Expected Output (Assuming the sbox value for 0x02 is 0x3F for simplicity)
+    let expected_sbox_byte = u8:0x3F;
+    let merged_expected_byte = (expected_sbox_byte as u32) << (bs as u32 * u32:8);
+    let expected_result = rs1 ^ merged_expected_byte;
+
+    // Actual Output
+    let actual_result = aes32esi(rs1, rs2, bs);
+
+    // Assert
+    assert_eq(expected_result, actual_result);
+}
+```
+
+## ChatGPT
+Here's the translation of the given function and test into a RISC-V assembly program:
+
+```assembly
+# Test for aes32esi
+
+# Load input values
+li x1, 0b00000000000000000000000000000100     # Load rs1 into x1
+li x2, 0b00000000000000000000000000000010     # Load rs2 into x2
+
+aes32esi x3, x1, x2, 0b00000000                # Call aes32esi instruction with bs as 0
+
+```
+
+Here's a breakdown of the code:
+
+- x1 contains the rs1 register value.
+- x2 contains the rs2 register value.
+- x3 will store the result after the operation.
+- aes32esi is our new instruction and is used as per your description. The operation encapsulates the behavior of the AES SBox as described.
+
+Keep in mind that the RISC-V assembly code assumes there's an actual `aes32esi` instruction in your RISC-V variant. If this isn't an actual instruction in RISC-V (and to the best of my knowledge as of 2021, it isn't), then the assembly won't work on a typical RISC-V assembler or processor. This code is hypothetical based on the context provided.
+
+## You
+can you do the same for a function names aes32esmi
+
+## ChatGPT
+Certainly! Given the structure of the provided functions in previous examples, I'll craft a similar function named `aes32esmi` and then translate its test case into a RISC-V assembly program.
+
+First, let's assume this hypothetical function:
+
+```rust
+fn aes32esmi(rs1: u32, rs2: u32, bs: u8) -> u32 {
+    // ... Some operations based on rs1, rs2, and bs
+    // This function, as named, might involve AES encryption with substitution and mix-columns.
+}
+
+```
+
+And its test:
+
+```rust
+#[test]
+fn aes32esmi_test() {
+    let rs1 = u32:0b00000000000000000000000000000100;
+    let rs2 = u32:0b00000000000000000000000000000010;
+    let bs = u8:0;
+    
+    // ... Some operations to get the expected result
+    let expected_result = u32:0b...; // Placeholder for the expected output
+
+    let actual_result = aes32esmi(rs1, rs2, bs);
+    assert_eq(expected_result, actual_result);
+}
+
+```
+
+Here's the translation of the above into a RISC-V assembly program:
+
+```assembly
+# Test for aes32esmi
+
+# Load input values
+li x1, 0b00000000000000000000000000000100     # Load rs1 into x1
+li x2, 0b00000000000000000000000000000010     # Load rs2 into x2
+
+aes32esmi x3, x1, x2, 0b00000000                # Call aes32esmi instruction with bs as 0
+
+```
+
+As before, this is a hypothetical assembly program. The actual content and behavior of the `aes32esmi` function would adjust the assembly instructions, especially if there are other operations or immediate values to consider. The translation is based on the provided context.
 

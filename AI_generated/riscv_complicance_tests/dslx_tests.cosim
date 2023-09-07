@@ -11,6 +11,8 @@
  zip 0x77777777
  unzip 0x5555ffff
  unzip 0xaaaaaaaa
+ aes32dsi 0x00000052
+ aes32dsi 0x11117011
  aes32esi 0x000000ff
  aes32esmi 0x00000204
  sha256sig0 0x4bea8ccf
@@ -23,5 +25,5 @@
  sha512sig0h 0x81000000
  sha512sig0h 0xfed42bd4
  sha512sig0l 0x83000001
- sha512sig1h 0x20002000
- sha512sig1l 0x24002000
+ sha512sig1h 0x00002010
+ sha512sig1l 0x04002010

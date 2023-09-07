@@ -68,11 +68,14 @@ fn test_aes32dsi() {
     let rs1_1: u32 = u32:0;
     let bs_1: u8 = u8:0;
     assert_eq(aes32dsi(bs_1, rs2_1, rs1_1), u32:0x52);  // 0x52 is the inverse sbox value for 0x00.
+    trace_fmt!(" aes32dsi ");
+    trace_fmt!(" 0x{:x}", aes32dsi(bs_1, rs2_1, rs1_1));
 
     // Case 2: Test with non-zero values
     let rs2_2: u32 = u32:0xefefefef;
     let rs1_2: u32 = u32:0x11111111;
     let bs_2: u8 = u8:1;  // Targeting the second byte from the right
     assert_eq(aes32dsi(bs_2, rs2_2, rs1_2), u32:0x11117011);  // 0x61 XORed with its original position results in 0x70.
-
+    trace_fmt!(" aes32dsi ");
+    trace_fmt!(" 0x{:x}", aes32dsi(bs_2, rs2_2, rs1_2));
 }
