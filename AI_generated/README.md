@@ -1,6 +1,6 @@
 # Conversations
 
-The `conversations/` directory contains the contents of our three design phases, with `Zkbk/` and `Zknh/` being the RISC-V crypto extensions implemented, and `Execute/` being the top level wrapper around the extensions' implementation. Each one contains the ChatGPT-4 conversation log in Markdown format, with the shared link to the conversation at the beginning, as well as a `utilized_code/` directory. This directory contains the source code that was deemed the most valuable from the conversation and was integrated into the design, as well as short unit tests for compliance testing (see below).
+The `conversations/` directory contains the contents of our four design phases, with `Zkbk/`, `Zknh/`, and `Zknd/` being the RISC-V crypto extensions implemented. `Execute/` is the top level wrapper around the extensions' implementation. Each one contains the ChatGPT-4 conversation log in Markdown format, with the shared link to the conversation at the beginning, as well as a `utilized_code/` directory. This directory contains the source code that was deemed the most valuable from the conversation and was integrated into the design, as well as short unit tests for compliance testing (see below).
 
 As the design took multiple chat sessions, the three design phases were kept decoupled, to not overflow the AI context window. ChatGPT is a tool for source code generation and refinement, which leaves the choice of which code to use up to the engineer. This led to the contents of the `top_level/` directory, which contains the utilized source code concatenated in a logical order to produce a valid DSLX file.
 
@@ -8,7 +8,10 @@ As the design took multiple chat sessions, the three design phases were kept dec
 
 The `top_level/` directory contains the source code as well as the script, `generate_top_level`, necessary to compile the final product of the converations, `masc.x`, to its verilog form, `execute.v`. The script first converts `masc.x` into an IR form, optimizes that, then generates a single verilog module containing the implemented logic and a specified amount of pipeline stages. The IR files and the produced verilog are left in the directory to show the user the expected result of running the generation script.
 
-Requirements to reproduce: environment variable `$XLS` be set to the bazel-bin directory of the users XLS installation, directions found at https://google.github.io/xls/
+DLSX produces SystemVerilog style look-up tables, which are necessary for SBOX AES style encryption operations. SV2V is used as a part of the generation script to convert the `__masc__execute.sv` file produced from the DSLX flow to a strictly Verilog style `__masc__execute.v` file.
+
+### Requirements to reproduce: 
+```environment variable `$XLS` be set to the bazel-bin directory of the users [XLS](https://google.github.io/xls/) installation, and [SV2V](https://github.com/zachjs/sv2v) ```
 
 # RISC-V Compliance Tests
 
@@ -16,6 +19,7 @@ The `riscv_compliance_test/` directory contains a cosimulation methodology to va
 
 `commit_run` produces the simulator log and check_all produces the DSLX interpreter log, both of which contain the explicit name of the instruction run and the resulting values from each of their test cases. `cosim` then extracts these names and values and converts them into a simple cosim format, each line being: " \<name of instruction\> \<value produced\>". It then runs diff between the two `*.cosim` files, echoing any divergences between the expected behavior and the result.
 
-A precompiled binary `crypto_tests` is already provided from the ASM source code, it may be recreated by running `make`.
+A precompiled binary `crypto_tests` is already provided from the ASM source code, it may be recompiled by running `make`.
 
-Requirements to reproduce: modern builds of Spike, riscv-gnu-toolchain, and riscv-tests.
+### Requirements to reproduce: 
+```modern builds of [Spike](https://github.com/riscv-software-src/riscv-isa-sim), [riscv-gnu-toolchain](https://github.com/riscv-collab/riscv-gnu-toolchain), and [riscv-tests](https://github.com/riscv-software-src/riscv-tests).```

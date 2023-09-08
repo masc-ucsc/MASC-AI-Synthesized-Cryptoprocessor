@@ -31,9 +31,9 @@ To achieve this, we employ GPT-4 to generate DSLX code that incorporates
 cryptographic instruction set. DSLX is chosen over traditional hardware
 description languages like Verilog due to its capability to facilitate
 automatic pipelining, thereby optimizing the hardware for better performance.
-For example, DSLX is able to pipeline the current design from 1 to 2 pipeline stages
-and go from 3298ps to 2445ps. This is a 1.34x improvement. Not an ideal 2x. The
-reason seems to be that the programmable rotate operation consume close to
+For example, DSLX is able to pipeline the current design from 1 to 5 pipeline stages
+and go from 7430ps to 2047ps. This is a 3.63x improvement. The
+limiting factor seems to be that the programmable rotate operation consume close to
 2000ps and DSLX can not repipeline without code changes.
 
 
@@ -47,6 +47,39 @@ correctness. GPT-4 also generates sequences of valid RISC-V assembly code to
 facilitate this verification. Furthermore, a wrapper implemented in GPT-4 is
 used to test a subset of the cosimulation functionalities on the generated
 Verilog code, ensuring its integrity and reliability.
+
+
+## The Design
+
+
+The product of this project is an RV32 compliant cryptographic accelerator that has full support for the Zkbk, Zknd, and Zknh extensions of the RISC-V specification, as shown in the table below. It performs all operations in constant time and is pipelined into 5 stages. The accelerator performs no RISC-V decoding and relies on its own, simpler opcodes to reduce multiplexor latency.
+
+| Extension | Mnemonic    | Instruction                  |
+|-----------|-------------|------------------------------|
+| Zkbk      | ror         | Rotate right                 |
+|           | rol         | Rotate left                  |
+|           | rori        | Rotate right immediate       |
+|           | andn        | AND with inverted operand    |
+|           | orn         | OR with inverted operand     |
+|           | xnor        | Exclusive NOR                |
+|           | pack        | Pack low halves of registers |
+|           | packh       | Pack low bytes of registers  |
+|           | brev8       | Reverse bits in bytes        |
+|           | rev8        | Byte-reverse register        |
+|           | zip         | Zip                          |
+|           | unzip       | Unzip                        |
+| Zknd      | aes32dsi    | AES final round decrypt      |
+|           | aes32dsmi   | AES middle round decrypt     |
+| Zknh      | sha256sig0  | SHA2-256 Sigma0              |
+|           | sha256sig1  | SHA2-256 Sigma1              |
+|           | sha256sum0  | SHA2-256 Sum0                |
+|           | sha256sum1  | SHA2-256 Sum1                |
+|           | sha512sig0h | SHA2-512 Sigma0 high         |
+|           | sha512sig0l | SHA2-512 Sigma0 low          |
+|           | sha512sig1h | SHA2-512 Sigma1 high         |
+|           | sha512sig1l | SHA2-512 Sigma1 low          |
+|           | sha512sum0r | SHA2-512 Sum0                |
+|           | sha512sum1r | SHA2-512 Sum1                |
 
 
 ## Challenges

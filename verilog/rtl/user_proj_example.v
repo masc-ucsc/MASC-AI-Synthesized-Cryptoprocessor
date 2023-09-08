@@ -85,57 +85,60 @@ module user_proj_example #(
 
     assign irq = 'b0;
 
-
     wire clk;
-    //wire rst;
+    assign clk = wb_clk_i;
 
-    //wire [BITS-1:0] rdata; 
-    //wire [BITS-1:0] wdata;
-    //wire [BITS-1:0] count;
 
-    //wire valid;
-    //wire [3:0] wstrb;
-    //wire [BITS-1:0] la_write;
-
-    // WB MI A
-    //assign valid = wbs_cyc_i && wbs_stb_i; 
-    //assign wstrb = wbs_sel_i & {4{wbs_we_i}};
-    //assign wbs_dat_o = 'b0; //{{(32-BITS){1'b0}}, rdata};
-    //assign wdata = wbs_dat_i[BITS-1:0];
-
-    // IO
-    //assign io_out = 'b0; //count;
-    //assign io_oeb = 'b0; //{(BITS){rst}};
-
-    // IRQ
-    //assign irq = 3'b000;	// Unused
-
-    // LA
-    //wire [32:0] result;
-    //assign la_data_out = {{{128-33}{1'b0}}, result}; //{{(128-BITS){1'b0}}, count};
-    // Assuming LA probes [63:32] are for controlling the count register  
-    //assign la_write = ~la_oenb[63:64-BITS] & ~{BITS{valid}};
-    // Assuming LA probes [65:64] are for controlling the count clk & reset  
-    assign clk = wb_clk_i; //(~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
-    //assign rst = wb_rst_i; //(~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
-
-    /*counter #(
-        .BITS(BITS)
-    ) counter(
-        .clk(clk),
-        .reset(rst),
-        .ready(wbs_ack_o),
-        .valid(valid),
-        .rdata(rdata),
-        .wdata(wbs_dat_i[BITS-1:0]),
-        .wstrb(wstrb),
-        .la_write(la_write),
-        .la_input(la_data_in[63:64-BITS]),
-        .count(count)
-    );*/
-
-    //wbs_ack_o = 'b0;
-    // LA data in will be {valid, insn, rs2, rs1, bs}
+    // la_data_in[104:0] will be {valid, insn, rs2, rs1, bs}
+    /* Instructions for operation:
+    * 
+    *  The MASC accelerator performs all of its operations in constant time,
+    *  as the five pipeline stages of the accelerator
+    *  act as a FIFO for operations that were submitted with a valid
+    *  input signal high and with an instruction code that aligns with
+    *  the following list - 
+    *  
+    *  ROR = 0,
+    *  ROL = 1,
+    *  RORI = 2,
+    *  ANDN = 3,
+    *  ORN = 4,
+    *  XNOR = 5,
+    *  PACK = 6,
+    *  PACKH = 7,
+    *  BREV8 = 8,
+    *  REV8 = 9,
+    *  ZIP = 10,
+    *  UNZIP = 11,
+    *  SHA512SUM0R = 12,
+    *  SHA256SUM0 = 13,
+    *  SHA512SIG0L = 14,
+    *  SHA256SIG0 = 15,
+    *  SHA256SUM1 = 16,
+    *  SHA512SIG1H = 17,
+    *  SHA512SIG0H = 18,
+    *  SHA512SIG1L = 19,
+    *  SHA512SUM1R = 20,
+    *  SHA256SIG1 = 21,
+    *  AES32DSI = 22,
+    *  AES32DSMI = 23
+    *
+    * Any instruction (opcode) values besides those listed
+    * will result in a zero value being produced on the "out"
+    * output port of the module. If a valid operation is scheduled
+    * with the "valid" input bit set, then the lower 32 bits of "out"
+    * will be the result of the operation, and the MSB will be set high,
+    * to indicate that the operation was valid and successful. The result
+    * cannot be trusted unless the MSB of "out" is set, as that may 
+    * indicate some undefined behavior coming from an initial state.
+    *
+    * The module is controlled purely through the Logic Analyzer signals
+    * la_data_in and la_data_out, where la_data_in[104:0] will be the input
+    * signals to the MASC accelerator, in order: {valid, insn, rs2, rs1, bs}
+    * la_data_out[31:0] shall be the result of an operation, and la_data_out[32]
+    * shall be the valid output bit, signalling if the current result came from 
+    * a valid operating producedure.
+    */
     __masc__execute execute(
       .clk(clk),
       .valid(la_data_in[104]),
@@ -147,40 +150,4 @@ module user_proj_example #(
     );
 endmodule
 
-/*module counter #(
-    parameter BITS = 16
-)(
-    input clk,
-    input reset,
-    input valid,
-    input [3:0] wstrb,
-    input [BITS-1:0] wdata,
-    input [BITS-1:0] la_write,
-    input [BITS-1:0] la_input,
-    output reg ready,
-    output reg [BITS-1:0] rdata,
-    output reg [BITS-1:0] count
-);
-
-    always @(posedge clk) begin
-        if (reset) begin
-            count <= 0;
-            ready <= 0;
-        end else begin
-            ready <= 1'b0;
-            if (~|la_write) begin
-                count <= count + 1;
-            end
-            if (valid && !ready) begin
-                ready <= 1'b1;
-                rdata <= count;
-                if (wstrb[0]) count[7:0]   <= wdata[7:0];
-                if (wstrb[1]) count[15:8]  <= wdata[15:8];
-            end else if (|la_write) begin
-                count <= la_write & la_input;
-            end
-        end
-    end
-
-endmodule*/
 `default_nettype wire
