@@ -44,6 +44,7 @@ module user_proj_example #(
 `endif
 
     // Wishbone Slave ports (WB MI A)
+    /* verilator lint_off UNUSED */
     input wb_clk_i,
     input wb_rst_i,
     input wbs_stb_i,
@@ -52,16 +53,21 @@ module user_proj_example #(
     input [3:0] wbs_sel_i,
     input [31:0] wbs_dat_i,
     input [31:0] wbs_adr_i,
+    /* verilator lint_on UNUSED */
     output wbs_ack_o,
     output [31:0] wbs_dat_o,
 
     // Logic Analyzer Signals
     input  [127:0] la_data_in,
     output [127:0] la_data_out,
+    /* verilator lint_off UNUSED */
     input  [127:0] la_oenb,
+    /* verilator lint_on UNUSED */
 
     // IOs
+    /* verilator lint_off UNUSED */
     input  [BITS-1:0] io_in,
+    /* verilator lint_on UNUSED */
     output [BITS-1:0] io_out,
     output [BITS-1:0] io_oeb,
 
@@ -129,12 +135,14 @@ module user_proj_example #(
     );*/
 
     //wbs_ack_o = 'b0;
-    // LA data in will be {insn, rs2, rs1}
+    // LA data in will be {valid, insn, rs2, rs1, bs}
     __masc__execute execute(
       .clk(clk),
-      .instruction(la_data_in[95:64]),
-      .rs1(la_data_in[31:0]),
-      .rs2(la_data_in[63:32]),
+      .valid(la_data_in[104]),
+      .instruction(la_data_in[103:72]),
+      .rs1(la_data_in[39:8]),
+      .rs2(la_data_in[71:40]),
+      .bs(la_data_in[7:0]),
       .out(la_data_out[32:0])
     );
 endmodule

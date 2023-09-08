@@ -55,7 +55,7 @@ format_log () {
 format_log $spike_file $spike_log "${instruction_list[@]}";
 format_log $dslx_file  $dslx_log  "${instruction_list[@]}";
 diff $dslx_file $spike_file
-if [[ $? ]]; then
+if [[ $? != 0 ]]; then
   echo "Cosim divergence detected for the above test cases, left is the DUT, right is expected";
 else
   echo "Cosim passed!";

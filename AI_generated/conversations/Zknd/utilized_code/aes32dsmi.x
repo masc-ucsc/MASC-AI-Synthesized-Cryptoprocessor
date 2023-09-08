@@ -103,8 +103,5 @@ fn test_aes32dsmi() {
 //    assert_eq(aes32dsmi(bs_test, rs2_test, rs1_test), expected_output);
     trace_fmt!(" aes32dsmi ");
     trace_fmt!(" 0x{:x}", aes32dsmi(bs_test, rs2_test, rs1_test));
-    trace_fmt!("aes_xtime 0x{:x}",aes_xtime(u8:99));
-    trace_fmt!("gmul 0x{:x}", gmul(u8:99, u8:100));
-    trace_fmt!("aes mixclumn 0x{:x}", aes_mixcolumn_byte_inv(u8:99));
 }
 

@@ -21,38 +21,45 @@ enum Instruction : u32 {
   SHA512SIG0H = 18,
   SHA512SIG1L = 19,
   SHA512SUM1R = 20,
-  SHA256SIG1 = 21
+  SHA256SIG1 = 21,
+  AES32DSI = 22,
+  AES32DSMI = 23
 }
 
-// The type for output which is a tuple (value: u32, valid: bool)
-type Result = (u32, bool);
+type Result = (bool, u32);
 
 // Function to execute a given instruction
-fn execute(instruction: Instruction, rs1: u32, rs2: u32) -> Result {
-  match instruction {
-    Instruction::ROR => (ror(rs1, rs2), true),
-    Instruction::ROL => (rol(rs1, rs2), true),
-    Instruction::RORI => (rori(rs1, rs2), true),
-    Instruction::ANDN => (andn(rs1, rs2), true),
-    Instruction::ORN => (orn(rs1, rs2), true),
-    Instruction::XNOR => (xnor(rs1, rs2), true),
-    Instruction::PACK => (pack(rs1, rs2), true),
-    Instruction::PACKH => (packh(rs1, rs2), true),
-    Instruction::BREV8 => (brev8(rs1), true),
-    Instruction::REV8 => (rev8(rs1), true),
-    Instruction::ZIP => (zip(rs1), true),
-    Instruction::UNZIP => (unzip(rs1), true),
-    Instruction::SHA512SUM0R => (sha512sum0r(rs1, rs2), true),
-    Instruction::SHA256SUM0 => (sha256sum0(rs1), true),
-    Instruction::SHA512SIG0L => (sha512sig0l(rs1, rs2), true),
-    Instruction::SHA256SIG0 => (sha256sig0(rs1), true),
-    Instruction::SHA256SUM1 => (sha256sum1(rs1), true),
-    Instruction::SHA512SIG1H => (sha512sig1h(rs1, rs2), true),
-    Instruction::SHA512SIG0H => (sha512sig0h(rs1, rs2), true),
-    Instruction::SHA512SIG1L => (sha512sig1l(rs1, rs2), true),
-    Instruction::SHA512SUM1R => (SHA512SUM1R(rs1, rs2), true),
-    Instruction::SHA256SIG1 => (sha256sig1(rs1), true),
-    _ => (u32:0, false)  // Default case for unknown Instruction
+fn execute(instruction: Instruction, rs1: u32, rs2: u32, bs: u8, valid: bool) -> Result {
+  if !valid {
+    (false, u32:0)  // Early result if the input is not valid
+  } else {
+    match instruction {
+      Instruction::ROR => (true, ror(rs1, rs2)),
+      Instruction::ROL => (true, rol(rs1, rs2)),
+      Instruction::RORI => (true, rori(rs1, rs2)),  // Note: this assumes rs2 is shamt. Adjust if not.
+      Instruction::ANDN => (true, andn(rs1, rs2)),
+      Instruction::ORN => (true, orn(rs1, rs2)),
+      Instruction::XNOR => (true, xnor(rs1, rs2)),
+      Instruction::PACK => (true, pack(rs1, rs2)),
+      Instruction::PACKH => (true, packh(rs1, rs2)),
+      Instruction::BREV8 => (true, brev8(rs1)),
+      Instruction::REV8 => (true, rev8(rs1)),
+      Instruction::ZIP => (true, zip(rs1)),
+      Instruction::UNZIP => (true, unzip(rs1)),
+      Instruction::SHA512SUM0R => (true, sha512sum0r(rs1, rs2)),
+      Instruction::SHA256SUM0 => (true, sha256sum0(rs1)),
+      Instruction::SHA512SIG0L => (true, sha512sig0l(rs1, rs2)),
+      Instruction::SHA256SIG0 => (true, sha256sig0(rs1)),
+      Instruction::SHA256SUM1 => (true, sha256sum1(rs1)),
+      Instruction::SHA512SIG1H => (true, sha512sig1h(rs1, rs2)),
+      Instruction::SHA512SIG0H => (true, sha512sig0h(rs1, rs2)),
+      Instruction::SHA512SIG1L => (true, sha512sig1l(rs1, rs2)),
+      Instruction::SHA512SUM1R => (true, SHA512SUM1R(rs1, rs2)),
+      Instruction::SHA256SIG1 => (true, sha256sig1(rs1)),
+      Instruction::AES32DSI => (true, aes32dsi(bs, rs2, rs1)),
+      Instruction::AES32DSMI => (true, aes32dsmi(bs, rs2, rs1)),
+      _ => (false, u32:0)  // Default case for unknown Instruction
+    }
   }
 }
 

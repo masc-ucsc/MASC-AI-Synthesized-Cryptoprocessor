@@ -1,5 +1,5 @@
 #!/bin/bash
-dir=$(pwd)/top_level/
+dir=$(pwd)/
 file=masc
 topFunct=execute
 
@@ -15,6 +15,7 @@ if [[ $(echo $?) -ne 0 ]]; then
 else
   $XLS/xls/dslx/ir_convert/ir_converter_main --top=$topFunct $dir$file.x > $dir$file.ir;
   $XLS/xls/tools/opt_main $dir$file.ir > $dir$file.opt.ir;
-  $XLS/xls/tools/codegen_main --generator=pipeline --pipeline_stages=1 --delay_model=sky130 --separate_lines $dir$file.opt.ir > $dir$topFunct.v
+  $XLS/xls/tools/codegen_main --generator=pipeline --pipeline_stages=5 --delay_model=sky130 --separate_lines $dir$file.opt.ir > __masc__execute.sv;
+  sv2v --write=adjacent __masc__execute.sv;
   exit 0;
 fi

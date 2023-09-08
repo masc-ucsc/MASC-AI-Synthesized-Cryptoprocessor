@@ -94,22 +94,6 @@ li x1, 0xAABBCCDD       # Load 0xAABBCCDD into x1 (rs1)
 li x2, 0x11223344       # Load 0x11223344 into x2 (rs2)
 aes32dsmi x3, x1, x2, 0b00001   # Using the immediate value 0b00001 for bs
 
-# Test for aes32esi
-
-# Load input values
-li x1, 0b00000000000000000000000000000100     # Load rs1 into x1
-li x2, 0b00000000000000000000000000000010     # Load rs2 into x2
-
-aes32esi x3, x1, x2, 0b00000000                # Call aes32esi instruction with bs as 0
-
-# Test for aes32esmi
-
-# Load input values
-li x1, 0b00000000000000000000000000000100     # Load rs1 into x1
-li x2, 0b00000000000000000000000000000010     # Load rs2 into x2
-
-aes32esmi x3, x1, x2, 0b00000000                # Call aes32esmi instruction with bs as 0
-
 
 li x1, 0xabcdef12    // Load input into x1
 sha256sig0 x3, x1    // Perform sha256sig0 operation and store result in x3

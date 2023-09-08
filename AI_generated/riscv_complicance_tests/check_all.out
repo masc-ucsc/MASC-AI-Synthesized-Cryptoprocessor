@@ -1,160 +1,148 @@
 [ RUN UNITTEST  ] test_ror
-I0907 15:22:48.532714    7785 bytecode_interpreter.h:49]  ror 
-I0907 15:22:48.532878    7785 bytecode_interpreter.h:49]  0x10000000
-W0907 15:22:48.532885    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_ror function for JIT comparison
+I0907 16:14:39.285259    7961 bytecode_interpreter.h:49]  ror 
+I0907 16:14:39.285351    7961 bytecode_interpreter.h:49]  0x10000000
+W0907 16:14:39.285358    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_ror function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] test_rol
-I0907 15:22:48.539341    7785 bytecode_interpreter.h:49]  rol 
-I0907 15:22:48.539397    7785 bytecode_interpreter.h:49]  0x40000000
-W0907 15:22:48.539403    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_rol function for JIT comparison
+I0907 16:14:39.292341    7961 bytecode_interpreter.h:49]  rol 
+I0907 16:14:39.292400    7961 bytecode_interpreter.h:49]  0x40000000
+W0907 16:14:39.292407    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_rol function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] test_rori
-I0907 15:22:48.545447    7785 bytecode_interpreter.h:49]  rori 
-I0907 15:22:48.545503    7785 bytecode_interpreter.h:49]  0x10000000
-W0907 15:22:48.545509    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_rori function for JIT comparison
+I0907 16:14:39.299619    7961 bytecode_interpreter.h:49]  rori 
+I0907 16:14:39.299675    7961 bytecode_interpreter.h:49]  0x10000000
+W0907 16:14:39.299681    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_rori function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] test_andn
-I0907 15:22:48.550361    7785 bytecode_interpreter.h:49]  andn 
-I0907 15:22:48.550525    7785 bytecode_interpreter.h:49]  0x21
-W0907 15:22:48.550534    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_andn function for JIT comparison
+I0907 16:14:39.304275    7961 bytecode_interpreter.h:49]  andn 
+I0907 16:14:39.304327    7961 bytecode_interpreter.h:49]  0x21
+W0907 16:14:39.304333    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_andn function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] test_orn
-I0907 15:22:48.555531    7785 bytecode_interpreter.h:49]  orn 
-I0907 15:22:48.555583    7785 bytecode_interpreter.h:49]  0xffffffbe
-W0907 15:22:48.555589    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_orn function for JIT comparison
+I0907 16:14:39.310182    7961 bytecode_interpreter.h:49]  orn 
+I0907 16:14:39.310234    7961 bytecode_interpreter.h:49]  0xffffffbe
+W0907 16:14:39.310240    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_orn function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] test_xnor
-I0907 15:22:48.560094    7785 bytecode_interpreter.h:49]  xnor 
-I0907 15:22:48.560146    7785 bytecode_interpreter.h:49]  0xffffff96
-W0907 15:22:48.560152    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_xnor function for JIT comparison
+I0907 16:14:39.315154    7961 bytecode_interpreter.h:49]  xnor 
+I0907 16:14:39.315207    7961 bytecode_interpreter.h:49]  0xffffff96
+W0907 16:14:39.315213    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_xnor function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] test_pack
-I0907 15:22:48.565378    7785 bytecode_interpreter.h:49]  pack 
-I0907 15:22:48.565433    7785 bytecode_interpreter.h:49]  0xff000f
-W0907 15:22:48.565439    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_pack function for JIT comparison
+I0907 16:14:39.320543    7961 bytecode_interpreter.h:49]  pack 
+I0907 16:14:39.320596    7961 bytecode_interpreter.h:49]  0xff000f
+W0907 16:14:39.320602    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_pack function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] test_packh
-I0907 15:22:48.570656    7785 bytecode_interpreter.h:49]  packh 
-I0907 15:22:48.570709    7785 bytecode_interpreter.h:49]  0xf0
-W0907 15:22:48.570715    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_packh function for JIT comparison
+I0907 16:14:39.325778    7961 bytecode_interpreter.h:49]  packh 
+I0907 16:14:39.325832    7961 bytecode_interpreter.h:49]  0xf0
+W0907 16:14:39.325838    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_packh function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] test_brev8
-I0907 15:22:48.597632    7785 bytecode_interpreter.h:49]  brev8 
-I0907 15:22:48.597745    7785 bytecode_interpreter.h:49]  0x8040c020
-W0907 15:22:48.597751    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_brev8 function for JIT comparison
+I0907 16:14:39.351993    7961 bytecode_interpreter.h:49]  brev8 
+I0907 16:14:39.352105    7961 bytecode_interpreter.h:49]  0x8040c020
+W0907 16:14:39.352111    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_brev8 function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] test_rev8
-I0907 15:22:48.603719    7785 bytecode_interpreter.h:49]  rev8 
-I0907 15:22:48.603781    7785 bytecode_interpreter.h:49]  0x4030201
-W0907 15:22:48.603786    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_rev8 function for JIT comparison
+I0907 16:14:39.357625    7961 bytecode_interpreter.h:49]  rev8 
+I0907 16:14:39.357685    7961 bytecode_interpreter.h:49]  0x4030201
+W0907 16:14:39.357691    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_rev8 function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] full_test_zip
-I0907 15:22:48.621764    7785 bytecode_interpreter.h:49]  zip 
-I0907 15:22:48.621922    7785 bytecode_interpreter.h:49]  0x77777777
-W0907 15:22:48.621929    7785 run_comparator.cc:61] Could not find __itok__zkbk__full_test_zip function for JIT comparison
+I0907 16:14:39.375927    7961 bytecode_interpreter.h:49]  zip 
+I0907 16:14:39.376083    7961 bytecode_interpreter.h:49]  0x77777777
+W0907 16:14:39.376090    7961 run_comparator.cc:61] Could not find __itok__zkbk__full_test_zip function for JIT comparison
 [            OK ]
 [ RUN UNITTEST  ] test_unzip
-I0907 15:22:48.639678    7785 bytecode_interpreter.h:49]  unzip 
-I0907 15:22:48.639812    7785 bytecode_interpreter.h:49]  0x5555ffff
-I0907 15:22:48.639816    7785 bytecode_interpreter.h:49]  unzip 
-I0907 15:22:48.639915    7785 bytecode_interpreter.h:49]  0xaaaaaaaa
-W0907 15:22:48.639920    7785 run_comparator.cc:61] Could not find __itok__zkbk__test_unzip function for JIT comparison
+I0907 16:14:39.394125    7961 bytecode_interpreter.h:49]  unzip 
+I0907 16:14:39.394264    7961 bytecode_interpreter.h:49]  0x5555ffff
+I0907 16:14:39.394268    7961 bytecode_interpreter.h:49]  unzip 
+I0907 16:14:39.394367    7961 bytecode_interpreter.h:49]  0xaaaaaaaa
+W0907 16:14:39.394373    7961 run_comparator.cc:61] Could not find __itok__zkbk__test_unzip function for JIT comparison
 [            OK ]
 [===============] 12 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_aes32dsi
-I0907 15:22:48.884449    7787 bytecode_interpreter.h:49]  aes32dsi 
-I0907 15:22:48.884566    7787 bytecode_interpreter.h:49]  0x52
-I0907 15:22:48.884587    7787 bytecode_interpreter.h:49]  aes32dsi 
-I0907 15:22:48.884607    7787 bytecode_interpreter.h:49]  0x11117011
-W0907 15:22:48.884612    7787 run_comparator.cc:61] Could not find __itok__aes32dsi__test_aes32dsi function for JIT comparison
+I0907 16:14:39.639327    7963 bytecode_interpreter.h:49]  aes32dsi 
+I0907 16:14:39.639443    7963 bytecode_interpreter.h:49]  0x52
+I0907 16:14:39.639464    7963 bytecode_interpreter.h:49]  aes32dsi 
+I0907 16:14:39.639484    7963 bytecode_interpreter.h:49]  0x11117011
+W0907 16:14:39.639488    7963 run_comparator.cc:61] Could not find __itok__aes32dsi__test_aes32dsi function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_aes32dsmi
-I0907 15:22:49.078865    7789 bytecode_interpreter.h:49]  aes32dsmi 
-I0907 15:22:49.257909    7789 bytecode_interpreter.h:49]  0x52c09e6a
-I0907 15:22:49.257964    7789 bytecode_interpreter.h:49] aes_xtime 0xc6
-I0907 15:22:49.257984    7789 bytecode_interpreter.h:49] gmul 0x97
-I0907 15:22:49.258063    7789 bytecode_interpreter.h:49] aes mixclumn 0x90c15664
-W0907 15:22:49.258068    7789 run_comparator.cc:61] Could not find __itok__aes32dsmi__test_aes32dsmi function for JIT comparison
-[            OK ]
-[===============] 1 test(s) ran; 0 failed; 0 skipped.
-[ RUN UNITTEST  ] aes32esi_test
-I0907 15:22:49.291186    7791 bytecode_interpreter.h:49]  aes32esi 
-I0907 15:22:49.291314    7791 bytecode_interpreter.h:49]  0xff
-W0907 15:22:49.291326    7791 run_comparator.cc:61] Could not find __itok__aes32esi__aes32esi_test function for JIT comparison
-[            OK ]
-[===============] 1 test(s) ran; 0 failed; 0 skipped.
-[ RUN UNITTEST  ] test_aes32esmi
-I0907 15:22:49.537231    7793 bytecode_interpreter.h:49]  aes32esmi 
-I0907 15:22:49.537345    7793 bytecode_interpreter.h:49]  0x204
-W0907 15:22:49.537350    7793 run_comparator.cc:61] Could not find __itok__aes32esmi__test_aes32esmi function for JIT comparison
+I0907 16:14:39.837192    7965 bytecode_interpreter.h:49]  aes32dsmi 
+I0907 16:14:40.013870    7965 bytecode_interpreter.h:49]  0x52c09e6a
+I0907 16:14:40.013926    7965 bytecode_interpreter.h:49] aes_xtime 0xc6
+I0907 16:14:40.013945    7965 bytecode_interpreter.h:49] gmul 0x97
+I0907 16:14:40.014026    7965 bytecode_interpreter.h:49] aes mixclumn 0x90c15664
+W0907 16:14:40.014031    7965 run_comparator.cc:61] Could not find __itok__aes32dsmi__test_aes32dsmi function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_sha256sig0
-I0907 15:22:49.587151    7795 bytecode_interpreter.h:49]  sha256sig0 
-I0907 15:22:49.587227    7795 bytecode_interpreter.h:49]  0x4bea8ccf
-W0907 15:22:49.587233    7795 run_comparator.cc:61] Could not find __itok__sha256sig0__test_sha256sig0 function for JIT comparison
+I0907 16:14:40.066236    7967 bytecode_interpreter.h:49]  sha256sig0 
+I0907 16:14:40.066311    7967 bytecode_interpreter.h:49]  0x4bea8ccf
+W0907 16:14:40.066316    7967 run_comparator.cc:61] Could not find __itok__sha256sig0__test_sha256sig0 function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_sha256sig1
-I0907 15:22:49.630130    7797 bytecode_interpreter.h:49]  sha256sig1 
-I0907 15:22:49.630204    7797 bytecode_interpreter.h:49]  0x60605fa0
-W0907 15:22:49.630211    7797 run_comparator.cc:61] Could not find __itok__sha256sig1__test_sha256sig1 function for JIT comparison
+I0907 16:14:40.108382    7969 bytecode_interpreter.h:49]  sha256sig1 
+I0907 16:14:40.108454    7969 bytecode_interpreter.h:49]  0x60605fa0
+W0907 16:14:40.108462    7969 run_comparator.cc:61] Could not find __itok__sha256sig1__test_sha256sig1 function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_sha256sum0_simple
-I0907 15:22:49.672572    7799 bytecode_interpreter.h:49]  sha256sum0 
-I0907 15:22:49.672681    7799 bytecode_interpreter.h:49]  0x8040040
-W0907 15:22:49.672687    7799 run_comparator.cc:61] Could not find __itok__sha256sum0__test_sha256sum0_simple function for JIT comparison
+I0907 16:14:40.152284    7971 bytecode_interpreter.h:49]  sha256sum0 
+I0907 16:14:40.152386    7971 bytecode_interpreter.h:49]  0x8040040
+W0907 16:14:40.152392    7971 run_comparator.cc:61] Could not find __itok__sha256sum0__test_sha256sum0_simple function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_sha256sum1_simple
-I0907 15:22:49.717614    7801 bytecode_interpreter.h:49]  sha256sum1 
-I0907 15:22:49.717722    7801 bytecode_interpreter.h:49]  0x20008004
-I0907 15:22:49.717739    7801 bytecode_interpreter.h:49]  sha256sum1 
-I0907 15:22:49.717756    7801 bytecode_interpreter.h:49]  0x40010008
-W0907 15:22:49.717760    7801 run_comparator.cc:61] Could not find __itok__sha256sum1__test_sha256sum1_simple function for JIT comparison
+I0907 16:14:40.196544    7973 bytecode_interpreter.h:49]  sha256sum1 
+I0907 16:14:40.196658    7973 bytecode_interpreter.h:49]  0x20008004
+I0907 16:14:40.196675    7973 bytecode_interpreter.h:49]  sha256sum1 
+I0907 16:14:40.196692    7973 bytecode_interpreter.h:49]  0x40010008
+W0907 16:14:40.196696    7973 run_comparator.cc:61] Could not find __itok__sha256sum1__test_sha256sum1_simple function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_sha512sig0h
-I0907 15:22:49.743973    7803 bytecode_interpreter.h:49]  sha512sig0h 
-I0907 15:22:49.744069    7803 bytecode_interpreter.h:49]  0x0
-I0907 15:22:49.744079    7803 bytecode_interpreter.h:49]  sha512sig0h 
-I0907 15:22:49.744087    7803 bytecode_interpreter.h:49]  0x0
-I0907 15:22:49.744095    7803 bytecode_interpreter.h:49]  sha512sig0h 
-I0907 15:22:49.744104    7803 bytecode_interpreter.h:49]  0x81000000
-I0907 15:22:49.744112    7803 bytecode_interpreter.h:49]  sha512sig0h 
-I0907 15:22:49.744121    7803 bytecode_interpreter.h:49]  0xfed42bd4
-W0907 15:22:49.744125    7803 run_comparator.cc:61] Could not find __itok__sha512sig0h__test_sha512sig0h function for JIT comparison
+I0907 16:14:40.222831    7975 bytecode_interpreter.h:49]  sha512sig0h 
+I0907 16:14:40.222920    7975 bytecode_interpreter.h:49]  0x0
+I0907 16:14:40.222930    7975 bytecode_interpreter.h:49]  sha512sig0h 
+I0907 16:14:40.222938    7975 bytecode_interpreter.h:49]  0x0
+I0907 16:14:40.222946    7975 bytecode_interpreter.h:49]  sha512sig0h 
+I0907 16:14:40.222955    7975 bytecode_interpreter.h:49]  0x81000000
+I0907 16:14:40.222964    7975 bytecode_interpreter.h:49]  sha512sig0h 
+I0907 16:14:40.222973    7975 bytecode_interpreter.h:49]  0xfed42bd4
+W0907 16:14:40.222976    7975 run_comparator.cc:61] Could not find __itok__sha512sig0h__test_sha512sig0h function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_sha512sig0l
-I0907 15:22:49.770870    7805 bytecode_interpreter.h:49]  sha512sig0l 
-I0907 15:22:49.770945    7805 bytecode_interpreter.h:49]  0x83000001
-W0907 15:22:49.770961    7805 run_comparator.cc:61] Could not find __itok__sha512sig0l__test_sha512sig0l function for JIT comparison
+I0907 16:14:40.249077    7977 bytecode_interpreter.h:49]  sha512sig0l 
+I0907 16:14:40.249156    7977 bytecode_interpreter.h:49]  0x83000001
+W0907 16:14:40.249166    7977 run_comparator.cc:61] Could not find __itok__sha512sig0l__test_sha512sig0l function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_sha512sig1h
-I0907 15:22:49.795824    7807 bytecode_interpreter.h:49]  sha512sig1h 
-I0907 15:22:49.795913    7807 bytecode_interpreter.h:49]  0x2010
-W0907 15:22:49.795918    7807 run_comparator.cc:61] Could not find __itok__sha512sig1h__test_sha512sig1h function for JIT comparison
+I0907 16:14:40.273294    7979 bytecode_interpreter.h:49]  sha512sig1h 
+I0907 16:14:40.273386    7979 bytecode_interpreter.h:49]  0x2010
+W0907 16:14:40.273391    7979 run_comparator.cc:61] Could not find __itok__sha512sig1h__test_sha512sig1h function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_sha512sig1l
-I0907 15:22:49.823546    7809 bytecode_interpreter.h:49]  sha512sig1l 
-I0907 15:22:49.823640    7809 bytecode_interpreter.h:49]  0x4002010
-W0907 15:22:49.823645    7809 run_comparator.cc:61] Could not find __itok__sha512sig1l__test_sha512sig1l function for JIT comparison
+I0907 16:14:40.299485    7981 bytecode_interpreter.h:49]  sha512sig1l 
+I0907 16:14:40.299574    7981 bytecode_interpreter.h:49]  0x4002010
+W0907 16:14:40.299586    7981 run_comparator.cc:61] Could not find __itok__sha512sig1l__test_sha512sig1l function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_sha512sum0r
-I0907 15:22:49.867528    7811 bytecode_interpreter.h:49]  sha512sum0r 
-I0907 15:22:49.867606    7811 bytecode_interpreter.h:49]  0x1042
-W0907 15:22:49.867615    7811 run_comparator.cc:61] Could not find __itok__sha512sum0r__test_sha512sum0r function for JIT comparison
+I0907 16:14:40.345687    7983 bytecode_interpreter.h:49]  sha512sum0r 
+I0907 16:14:40.345763    7983 bytecode_interpreter.h:49]  0x1042
+W0907 16:14:40.345773    7983 run_comparator.cc:61] Could not find __itok__sha512sum0r__test_sha512sum0r function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.
 [ RUN UNITTEST  ] test_SHA512SUM1R
-I0907 15:22:49.911284    7813 bytecode_interpreter.h:49]  sha512sum1r 
-I0907 15:22:49.911363    7813 bytecode_interpreter.h:49]  0x200804
-W0907 15:22:49.911372    7813 run_comparator.cc:61] Could not find __itok__sha512sum1r__test_SHA512SUM1R function for JIT comparison
+I0907 16:14:40.389017    7985 bytecode_interpreter.h:49]  sha512sum1r 
+I0907 16:14:40.389089    7985 bytecode_interpreter.h:49]  0x200804
+W0907 16:14:40.389098    7985 run_comparator.cc:61] Could not find __itok__sha512sum1r__test_SHA512SUM1R function for JIT comparison
 [            OK ]
 [===============] 1 test(s) ran; 0 failed; 0 skipped.

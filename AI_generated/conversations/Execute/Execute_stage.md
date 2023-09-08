@@ -675,3 +675,303 @@ fn execute(instruction: Instruction, rs1: u32, rs2: u32) -> (u32, bool) {
 
 Now the program should work correctly with the expected DSLX syntax.
 
+## You
+that was good, now the execute function also needs a boolean "valid" input, which should produce the typical result when high. Otherwise it should produce the default all zeros value. This is so the execute function knows that it is getting a valid input, and therefore should communicate that is is outputting a valid result.
+Can you rewrite the function and add this small functionality?
+
+## ChatGPT
+Absolutely. I'll modify the `execute` function to include a `valid` input. When the `valid` input is false, the function will immediately output an all-zero result with the "valid output" set to false. Here's the revised function:
+
+```dslx
+fn execute(instruction: Instruction, rs1: u32, rs2: u32, valid: bool) -> (u32, bool) {
+  if !valid {
+    return (u32:0, false);  // Early return if the input is not valid
+  }
+
+  match instruction {
+    Instruction::ROR => (ror(rs1, rs2), true),
+    Instruction::ROL => (rol(rs1, rs2), true),
+    Instruction::RORI => (rori(rs1, rs2), true),  // Note: this assumes rs2 is shamt. Adjust if not.
+    Instruction::ANDN => (andn(rs1, rs2), true),
+    Instruction::ORN => (orn(rs1, rs2), true),
+    Instruction::XNOR => (xnor(rs1, rs2), true),
+    Instruction::PACK => (pack(rs1, rs2), true),
+    Instruction::PACKH => (packh(rs1, rs2), true),
+    Instruction::BREV8 => (brev8(rs1), true),
+    Instruction::REV8 => (rev8(rs1), true),
+    Instruction::ZIP => (zip(rs1), true),
+    Instruction::UNZIP => (unzip(rs1), true),
+    // ... Continue similarly for the rest of the instructions ...
+    _ => (u32:0, false)  // Default case for unknown Instruction
+  }
+}
+
+```
+
+This should meet the described requirements. The function checks the `valid` input first and returns the default value immediately if it's not set to true. Otherwise, it processes the instruction as before.
+
+## You
+I got this error 
+```
+0259: fn execute(instruction: Instruction, rs1: u32, rs2: u32, valid: bool) -> (u32, bool) {
+0260:   if !valid {
+0261:     return (u32:0, false);  // Early return if the input is not valid
+~~~~~~~~~~^----^ ParseError: Cannot find a definition for name: "return"
+0262:   }
+0263:   match instruction {
+```
+
+This language does not use the return keyword, therefore you can remove it. You should also make this an if-else statement, and you should also add the following cases:
+```
+
+## ChatGPT
+Understood, I'll refactor the `execute` function without the `return` keyword, using an if-else structure. I'll also integrate any additional cases you'd like to add. Here's the revised function:
+
+```dslx
+fn execute(instruction: Instruction, rs1: u32, rs2: u32, valid: bool) -> (u32, bool) {
+  if !valid {
+    (u32:0, false)  // Early result if the input is not valid
+  } else {
+    match instruction {
+      Instruction::ROR => (ror(rs1, rs2), true),
+      Instruction::ROL => (rol(rs1, rs2), true),
+      Instruction::RORI => (rori(rs1, rs2), true),  // Note: this assumes rs2 is shamt. Adjust if not.
+      Instruction::ANDN => (andn(rs1, rs2), true),
+      Instruction::ORN => (orn(rs1, rs2), true),
+      Instruction::XNOR => (xnor(rs1, rs2), true),
+      Instruction::PACK => (pack(rs1, rs2), true),
+      Instruction::PACKH => (packh(rs1, rs2), true),
+      Instruction::BREV8 => (brev8(rs1), true),
+      Instruction::REV8 => (rev8(rs1), true),
+      Instruction::ZIP => (zip(rs1), true),
+      Instruction::UNZIP => (unzip(rs1), true),
+      // ... Add any additional cases you want here ...
+      _ => (u32:0, false)  // Default case for unknown Instruction
+    }
+  }
+}
+
+```
+
+Now you can add the additional cases you mentioned in the `... Add any additional cases you want here ...` section, or provide them and I can integrate them for you.
+
+## You
+can you also add these cases
+```
+Instruction::SHA512SUM0R => (sha512sum0r(rs1, rs2), true),
+277     Instruction::SHA256SUM0 => (sha256sum0(rs1), true),
+278     Instruction::SHA512SIG0L => (sha512sig0l(rs1, rs2), true),
+279     Instruction::SHA256SIG0 => (sha256sig0(rs1), true),
+280     Instruction::SHA256SUM1 => (sha256sum1(rs1), true),
+281     Instruction::SHA512SIG1H => (sha512sig1h(rs1, rs2), true),
+282     Instruction::SHA512SIG0H => (sha512sig0h(rs1, rs2), true),
+283     Instruction::SHA512SIG1L => (sha512sig1l(rs1, rs2), true),
+284     Instruction::SHA512SUM1R => (SHA512SUM1R(rs1, rs2), true),
+285     Instruction::SHA256SIG1 => (sha256sig1(rs1), true),
+```
+
+## ChatGPT
+Sure thing. I'll incorporate those cases into the `execute` function:
+
+```dslx
+fn execute(instruction: Instruction, rs1: u32, rs2: u32, valid: bool) -> (u32, bool) {
+  if !valid {
+    (u32:0, false)  // Early result if the input is not valid
+  } else {
+    match instruction {
+      Instruction::ROR => (ror(rs1, rs2), true),
+      Instruction::ROL => (rol(rs1, rs2), true),
+      Instruction::RORI => (rori(rs1, rs2), true),  // Note: this assumes rs2 is shamt. Adjust if not.
+      Instruction::ANDN => (andn(rs1, rs2), true),
+      Instruction::ORN => (orn(rs1, rs2), true),
+      Instruction::XNOR => (xnor(rs1, rs2), true),
+      Instruction::PACK => (pack(rs1, rs2), true),
+      Instruction::PACKH => (packh(rs1, rs2), true),
+      Instruction::BREV8 => (brev8(rs1), true),
+      Instruction::REV8 => (rev8(rs1), true),
+      Instruction::ZIP => (zip(rs1), true),
+      Instruction::UNZIP => (unzip(rs1), true),
+      Instruction::SHA512SUM0R => (sha512sum0r(rs1, rs2), true),
+      Instruction::SHA256SUM0 => (sha256sum0(rs1), true),
+      Instruction::SHA512SIG0L => (sha512sig0l(rs1, rs2), true),
+      Instruction::SHA256SIG0 => (sha256sig0(rs1), true),
+      Instruction::SHA256SUM1 => (sha256sum1(rs1), true),
+      Instruction::SHA512SIG1H => (sha512sig1h(rs1, rs2), true),
+      Instruction::SHA512SIG0H => (sha512sig0h(rs1, rs2), true),
+      Instruction::SHA512SIG1L => (sha512sig1l(rs1, rs2), true),
+      Instruction::SHA512SUM1R => (SHA512SUM1R(rs1, rs2), true),
+      Instruction::SHA256SIG1 => (sha256sig1(rs1), true),
+      _ => (u32:0, false)  // Default case for unknown Instruction
+    }
+  }
+}
+
+```
+
+This should cover the provided cases for your RISC-V instructions in DSLX.
+
+## You
+you wrote this enum for me before:
+```
+enum Instruction : u32 {
+  3   ROR = 0,
+  4   ROL = 1,
+  5   RORI = 2,
+  6   ANDN = 3,
+  7   ORN = 4,
+  8   XNOR = 5,
+  9   PACK = 6,
+ 10   PACKH = 7,
+ 11   BREV8 = 8,
+ 12   REV8 = 9,
+ 13   ZIP = 10,
+ 14   UNZIP = 11,
+ 15   SHA512SUM0R = 12,
+ 16   SHA256SUM0 = 13,
+ 17   SHA512SIG0L = 14,
+ 18   SHA256SIG0 = 15,
+ 19   SHA256SUM1 = 16,
+ 20   SHA512SIG1H = 17,
+ 21   SHA512SIG0H = 18,
+ 22   SHA512SIG1L = 19,
+ 23   SHA512SUM1R = 20,
+ 24   SHA256SIG1 = 21
+ 25 }
+```
+could you please add to it AES32DSI and AES32DSMI
+
+## ChatGPT
+Certainly! I'll append `AES32DSI` and `AES32DSMI` to the `Instruction` enum with the subsequent values:
+
+```dslx
+enum Instruction : u32 {
+  ROR = 0,
+  ROL = 1,
+  RORI = 2,
+  ANDN = 3,
+  ORN = 4,
+  XNOR = 5,
+  PACK = 6,
+  PACKH = 7,
+  BREV8 = 8,
+  REV8 = 9,
+  ZIP = 10,
+  UNZIP = 11,
+  SHA512SUM0R = 12,
+  SHA256SUM0 = 13,
+  SHA512SIG0L = 14,
+  SHA256SIG0 = 15,
+  SHA256SUM1 = 16,
+  SHA512SIG1H = 17,
+  SHA512SIG0H = 18,
+  SHA512SIG1L = 19,
+  SHA512SUM1R = 20,
+  SHA256SIG1 = 21,
+  AES32DSI = 22,
+  AES32DSMI = 23
+}
+
+```
+
+Both `AES32DSI` and `AES32DSMI` have been added to the end of the enum with the values `22` and `23` respectively.
+
+## You
+could you swap the positions of the members of this tuple, I want the bool to be the most significant bit in the vector
+```
+type Result = (u32, bool);
+```
+
+## ChatGPT
+Of course! Here's the updated tuple type with the `bool` being the first (most significant) member:
+
+```dslx
+type Result = (bool, u32);
+
+```
+
+Just make sure to adjust any tuple assignments or usages in your code accordingly.
+
+## You
+earlier you wrote this function
+```
+fn execute(instruction: Instruction, rs1: u32, rs2: u32, valid: bool) -> (u32, bool) {
+  if !valid {
+    (u32:0, false)  // Early result if the input is not valid
+  } else {
+    match instruction {
+      Instruction::ROR => (ror(rs1, rs2), true),
+      Instruction::ROL => (rol(rs1, rs2), true),
+      Instruction::RORI => (rori(rs1, rs2), true),  // Note: this assumes rs2 is shamt. Adjust if not.
+      Instruction::ANDN => (andn(rs1, rs2), true),
+      Instruction::ORN => (orn(rs1, rs2), true),
+      Instruction::XNOR => (xnor(rs1, rs2), true),
+      Instruction::PACK => (pack(rs1, rs2), true),
+      Instruction::PACKH => (packh(rs1, rs2), true),
+      Instruction::BREV8 => (brev8(rs1), true),
+      Instruction::REV8 => (rev8(rs1), true),
+      Instruction::ZIP => (zip(rs1), true),
+      Instruction::UNZIP => (unzip(rs1), true),
+      Instruction::SHA512SUM0R => (sha512sum0r(rs1, rs2), true),
+      Instruction::SHA256SUM0 => (sha256sum0(rs1), true),
+      Instruction::SHA512SIG0L => (sha512sig0l(rs1, rs2), true),
+      Instruction::SHA256SIG0 => (sha256sig0(rs1), true),
+      Instruction::SHA256SUM1 => (sha256sum1(rs1), true),
+      Instruction::SHA512SIG1H => (sha512sig1h(rs1, rs2), true),
+      Instruction::SHA512SIG0H => (sha512sig0h(rs1, rs2), true),
+      Instruction::SHA512SIG1L => (sha512sig1l(rs1, rs2), true),
+      Instruction::SHA512SUM1R => (SHA512SUM1R(rs1, rs2), true),
+      Instruction::SHA256SIG1 => (sha256sig1(rs1), true),
+      _ => (u32:0, false)  // Default case for unknown Instruction
+    }
+  }
+}
+```
+ could you please update it with the new organization for the Result type you just corrected, as well as adding cases for the two new enums I gave you, here are their function signatures. 
+```
+fn aes32dsi(bs: u8, rs2: u32, rs1: u32) -> u32 {
+fn aes32dsmi(bs: u8, rs2: u32, rs1: u32) -> u32 {
+```
+you may want to add a new input parameter to this function to represent the "bs" variable introduced by the two new cases
+
+## ChatGPT
+Certainly! Here's the updated function:
+
+```dslx
+fn execute(instruction: Instruction, rs1: u32, rs2: u32, bs: u8, valid: bool) -> Result {
+  if !valid {
+    (false, u32:0)  // Early result if the input is not valid
+  } else {
+    match instruction {
+      Instruction::ROR => (true, ror(rs1, rs2)),
+      Instruction::ROL => (true, rol(rs1, rs2)),
+      Instruction::RORI => (true, rori(rs1, rs2)),  // Note: this assumes rs2 is shamt. Adjust if not.
+      Instruction::ANDN => (true, andn(rs1, rs2)),
+      Instruction::ORN => (true, orn(rs1, rs2)),
+      Instruction::XNOR => (true, xnor(rs1, rs2)),
+      Instruction::PACK => (true, pack(rs1, rs2)),
+      Instruction::PACKH => (true, packh(rs1, rs2)),
+      Instruction::BREV8 => (true, brev8(rs1)),
+      Instruction::REV8 => (true, rev8(rs1)),
+      Instruction::ZIP => (true, zip(rs1)),
+      Instruction::UNZIP => (true, unzip(rs1)),
+      Instruction::SHA512SUM0R => (true, sha512sum0r(rs1, rs2)),
+      Instruction::SHA256SUM0 => (true, sha256sum0(rs1)),
+      Instruction::SHA512SIG0L => (true, sha512sig0l(rs1, rs2)),
+      Instruction::SHA256SIG0 => (true, sha256sig0(rs1)),
+      Instruction::SHA256SUM1 => (true, sha256sum1(rs1)),
+      Instruction::SHA512SIG1H => (true, sha512sig1h(rs1, rs2)),
+      Instruction::SHA512SIG0H => (true, sha512sig0h(rs1, rs2)),
+      Instruction::SHA512SIG1L => (true, sha512sig1l(rs1, rs2)),
+      Instruction::SHA512SUM1R => (true, SHA512SUM1R(rs1, rs2)),
+      Instruction::SHA256SIG1 => (true, sha256sig1(rs1)),
+      Instruction::AES32DSI => (true, aes32dsi(bs, rs2, rs1)),
+      Instruction::AES32DSMI => (true, aes32dsmi(bs, rs2, rs1)),
+      _ => (false, u32:0)  // Default case for unknown Instruction
+    }
+  }
+}
+
+```
+
+I've added the `bs` parameter as the fourth parameter in the `execute` function and included the new instructions in the match block. Make sure the order of `rs1` and `rs2` in the new functions is correct based on your needs.
+
